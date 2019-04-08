@@ -21,11 +21,13 @@ bool AddGoatDialog::checkDB(){
 
 QString AddGoatDialog::createGoatId(){
     QSqlQuery query;
+    QString SELECT_GOATID_FROME_GOATINFO_WHERE_GOATID = "select goatId from goatInfo where goatId = :goatId;";
     if(query.exec("select count(goatId) as goatnum from goatInfo;")){
         if(query.next()){
             bool createFlag = true;
             int start = 10001 + query.value("goatnum").toInt();
-            query.prepare("select goatId from goatInfo where goatId = :goatId;");
+            //query.prepare("select goatId from goatInfo where goatId = :goatId;");
+            query.prepare(SELECT_GOATID_FROME_GOATINFO_WHERE_GOATID);
             while(createFlag){
                 QString newGoatId = "G"+QString::number(start);
                 query.bindValue(":goatId",newGoatId);
@@ -57,6 +59,9 @@ void AddGoatDialog::loadHouseId(){
 void AddGoatDialog::on_pushButton_clicked()
 {
     ui->goatIdLineEdit->setEnabled(!ui->goatIdLineEdit->isEnabled());
+    if(!ui->goatIdLineEdit->isEnabled()){
+        ui->goatIdLineEdit->setText(createGoatId());
+    }
 }
 
 void AddGoatDialog::onShowOut(){
@@ -113,4 +118,9 @@ void AddGoatDialog::on_confirmButton_clicked()
         QMessageBox::warning(this,"警告","体重非法!");
     }
 
+}
+
+void AddGoatDialog::on_cancelButton_clicked()
+{
+    this->close();
 }

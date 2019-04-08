@@ -40,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionLogin,SIGNAL(triggered(bool)),loginDialog,SLOT(show()));
     connect(loginDialog,SIGNAL(loginSignal()),this,SLOT(loginOK()));
     connect(ui->actionLogout,SIGNAL(triggered(bool)),this,SLOT(doLogout()));
+    connect(ui->actionExit,SIGNAL(triggered(bool)),this,SLOT(doExit()));
     connect(ui->actionHelp,SIGNAL(triggered(bool)),helpDialog,SLOT(show()));
     setWindowIcon(QIcon(":/nu.ico"));
 
@@ -81,4 +82,9 @@ void MainWindow::doLogout(){
     DB::instance().data()->getDb().close();
     ui->actionLogin->setText("登录");
     ui->actionLogin->setEnabled(true);
+}
+
+void MainWindow::doExit(){
+    doLogout();
+    this->close();
 }
