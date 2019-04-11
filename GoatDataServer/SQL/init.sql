@@ -3,26 +3,62 @@ set names utf8;
 drop database if exists `goatdb`;
 create database goatdb;
 use goatdb;
-#羊舍
-create table houseInfo(houseId varchar(100) primary key);
-#奶山羊信息表
-create table goatInfo(id int primary key auto_increment, goatId varchar(40) not null unique,houseId varchar(100) not null, weight float, inTime datetime, outTime datetime);
-#设备信息表
-create table deviceInfo(id  int primary key auto_increment,deviceId varchar(40) not null unique,deviceState varchar(20), inTime datetime);
-#绑定信息表
-create table bindingInfo(bindingId int primary key auto_increment,goatId varchar(40) not null unique, deviceId varchar(40) not null unique);
-#路由设备表
-create table routerInfo(id int primary key auto_increment,deviceId varchar(40) not null unique,deviceState varchar(20),inTime datetime);
-#运动数据表
-create table sportData(id int primary key auto_increment,goatId varchar(40) not null,datatimem varchar(20) not null,sportx varchar(20) not null,sporty varchar(20) not null, sportz varchar(20) not null,anglex varchar(20),angley varchar(20),anglez varchar(20),status varchar(40));
-#羊舍数据表
-#create table houseData(id int primary Key auto_increment,houseId varchar(100) not null,datatimem varchar(20) not null,wendu varchar(20),anqi varchar(20),shidu varchar(20),eryang varchar(20));
-create table houseData(datatimem varchar(20) not null,houseId varchar(100) not null,wendu varchar(20),anqi varchar(20),shidu varchar(20),eryang varchar(20), primary key(datatimem,houseId));
 
-#外键约束
+# 羊舍
+create table houseInfo(houseId varchar(100) primary key);
+
+# 奶山羊信息表
+create table goatInfo(id int primary key auto_increment, goatId varchar(40) not null unique,houseId varchar(100) not null, weight float, inTime datetime, outTime datetime);
+
+# 设备信息表
+create table deviceInfo(id  int primary key auto_increment,deviceId varchar(40) not null unique,deviceState varchar(20), inTime datetime);
+
+# 绑定信息表
+create table bindingInfo(bindingId int primary key auto_increment,goatId varchar(40) not null unique, deviceId varchar(40) not null unique);
+
+# 路由设备表
+create table routerInfo(id int primary key auto_increment,deviceId varchar(40) not null unique,deviceState varchar(20),inTime datetime);
+
+# 运动数据表
+create table sportData(id int primary key auto_increment,goatId varchar(40) not null,datatimem varchar(20) not null,sportx varchar(20) not null,sporty varchar(20) not null, sportz varchar(20) not null,anglex varchar(20),angley varchar(20),anglez varchar(20),status varchar(40));
+
+# 羊舍数据表
+#create table houseData(id int primary Key auto_increment,houseId varchar(100) not null,datatimem varchar(20) not null,wendu varchar(20),anqi varchar(20),shidu varchar(20),eryang varchar(20));
+create table houseData(datatimem varchar(20) not null,houseId varchar(100) not null,wendu varchar(20),anqi varchar(20),shidu varchar(20),eryang varchar(20),guangzhao varchar(20),pm25 varchar(20),pm10 varchar(20),yanwu varchar(20), primary key(datatimem,houseId));
+
+# 疫苗信息表
+create table vacineInfo(vacineId varchar(40) primary key,vacineName varchar(40) not null, vacineType varchar(200) not null,vacineTime varchar(100),vacineDose varchar(100),vacinePart varchar(100), vacineRemark varchar(200));
+
+#防疫信息表
+create table antiepidemicData(id int primary key auto_increment,goatId varchar(40) not null, vacineId varchar(40) not null,inTime datetime,antiepidemicRemark varchar(200));
+
+# 饲料信息表
+create table feedInfo(feedId varchar(40) primary key, feedName varchar(40),feedRange varchar(200),feedUsage varchar(200),feedRemark varchar(200));
+
+# 饲喂信息表
+create table feedingData(id int primary key auto_increment,goatId varchar(40) not null,feedId varchar(40) not null,feedLevel varchar(40),inTime datetime,feedingRemark varchar(200));
+
+# 产品信息表
+create table productInfo(productId varchar(40) primary key, productName varchar(40),productRemark varchar(200));
+
+# 产量信息表
+create table yieldData(id int primary key auto_increment,goatId varchar(40) not null,productId varchar(40) not null,yield varchar(40) not null,outTime datetime, yieldRemark varchar(200));
+
+# 外键约束
 alter table goatInfo add constraint fk_houseId foreign key(houseId) references houseInfo(houseId) on delete cascade on update cascade;
+
 alter table bindingInfo add constraint fk_goatId foreign key(goatId) references goatInfo(goatId) on delete cascade on update cascade;
 alter table bindingInfo add constraint fk_deviceId foreign key(deviceId) references deviceInfo(deviceId) on delete cascade on update cascade;
+
+alter table antiepidemicData add constraint fk_goatId_to_antiepidemicData foreign key(goatId) references goatInfo(goatId) on delete cascade on update cascade;
+alter table antiepidemicData add constraint fk_vacineId_to_antiepidemicData foreign key(vacineId) references vacineInfo(vacineId) on delete cascade on update cascade;
+
+alter table feedingData add constraint fk_goatId_to_feedingData foreign key(goatId) references goatInfo(goatId) on delete cascade on update cascade;
+alter table feedingData add constraint fk_feedId_to_feedingData foreign key(feedId) references feedInfo(feedId) on delete cascade on update cascade;
+
+alter table yieldData add constraint fk_goatId_to_yieldData foreign key(goatId) references goatInfo(goatId) on delete cascade on update cascade;
+alter table yieldData add constraint fk_productId_to_yieldData foreign key(productId) references productInfo(productId) on delete cascade on update cascade;
+
 
 #触发器
 delimiter ||
@@ -32,6 +68,31 @@ delimiter ||
 #  delete from bindingInfo where goatId = NEW.goatId;
 #  delete from bindingInfo where deviceId = NEW.deviceId;
 #end||
+
+create trigger bf_antipidemic before insert
+on antiepidemicData for each row
+begin
+  if isnull(NEW.inTime) then
+    set NEW.inTime = now();
+  end if;
+end||
+
+create trigger bf_feeding before insert
+on feedingData for each row
+begin
+  if isnull(NEW.inTime) then
+    set NEW.inTime = now();
+  end if;
+end||
+
+create trigger bf_yieldData before insert
+on yieldData for each row
+begin
+  if isnull(NEW.outTime) then
+    set NEW.outTime = now();
+  end if;
+end||
+
 create trigger af_binding after insert
 on bindingInfo for each row
 begin

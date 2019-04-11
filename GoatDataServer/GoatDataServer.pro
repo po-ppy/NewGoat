@@ -41,4 +41,6 @@ RESOURCES += \
     sources.qrc
 
 DISTFILES += \
-    SQL/init.sql
+    SQL/init.sql \
+    SQL/insertSomeData.sql \
+    SQL/init.sql.bak
