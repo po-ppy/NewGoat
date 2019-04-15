@@ -8,5 +8,7 @@
         <file>question.png</file>
         <file>yang.png</file>
         <file>she.png</file>
+        <file>plus.png</file>
+        <file>minus.png</file>
     </qresource>
 </RCC>

@@ -49,8 +49,34 @@
     <property name="title">
      <string>信息管理(&amp;I)</string>
     </property>
+    <widget class="QMenu" name="menu">
+     <property name="title">
+      <string>饲喂信息</string>
+     </property>
+     <addaction name="separator"/>
+     <addaction name="separator"/>
+     <addaction name="action_feeding"/>
+     <addaction name="action_feed"/>
+    </widget>
+    <widget class="QMenu" name="menu_2">
+     <property name="title">
+      <string>防疫信息</string>
+     </property>
+     <addaction name="action_antiepidemic"/>
+     <addaction name="action_vacine"/>
+    </widget>
+    <widget class="QMenu" name="menu_3">
+     <property name="title">
+      <string>产量信息</string>
+     </property>
+     <addaction name="action_yield"/>
+     <addaction name="action_product"/>
+    </widget>
     <addaction name="actionD"/>
     <addaction name="action_Device_Query"/>
+    <addaction name="menu"/>
+    <addaction name="menu_2"/>
+    <addaction name="menu_3"/>
    </widget>
    <widget class="QMenu" name="menu_S">
     <property name="title">
@@ -120,6 +146,36 @@
   <action name="actionExit">
    <property name="text">
     <string>退出</string>
+   </property>
+  </action>
+  <action name="action_feed">
+   <property name="text">
+    <string>饲料信息</string>
+   </property>
+  </action>
+  <action name="action_feeding">
+   <property name="text">
+    <string>饲喂信息</string>
+   </property>
+  </action>
+  <action name="action_antiepidemic">
+   <property name="text">
+    <string>防疫信息</string>
+   </property>
+  </action>
+  <action name="action_vacine">
+   <property name="text">
+    <string>疫苗信息</string>
+   </property>
+  </action>
+  <action name="action_yield">
+   <property name="text">
+    <string>产量信息</string>
+   </property>
+  </action>
+  <action name="action_product">
+   <property name="text">
+    <string>产品信息</string>
    </property>
   </action>
  </widget>
