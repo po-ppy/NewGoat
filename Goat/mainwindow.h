@@ -34,6 +34,12 @@ private slots:
     void change_to_device_query_form();
     void change_to_other_info_form();
     void change_to_other_data_form();
+    void change_to_info_feed();
+    void change_to_info_vacine();
+    void change_to_info_product();
+    void change_to_data_feeding();
+    void change_to_data_antiepidemic();
+    void change_to_data_yield();
 private:
     Ui::MainWindow *ui;
     SportDataForm *sportDataForm;

@@ -30,4 +30,5 @@ void OtherDataForm::on_showPushButton_clicked()
     ui->tableView->horizontalHeader()->setSortIndicator(0,Qt::AscendingOrder);
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
     ui->tableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
+    ui->tableView->horizontalHeader()->setSectionResizeMode(3,QHeaderView::ResizeToContents);
 }

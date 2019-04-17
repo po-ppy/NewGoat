@@ -16,6 +16,8 @@ MainWindow::MainWindow(QWidget *parent) :
     otherInfoForm = new OtherInfoForm(this);
     otherDataForm = new OtherDataForm(this);
 
+    //ui->action_feed->setCheckable(true);
+
     bdDialog = new bindingDialog(this);
 
     ui->stackedWidget->addWidget(sportDataForm);
@@ -31,7 +33,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionD,SIGNAL(triggered(bool)),this,SLOT(change_to_goat_query_form()));
     connect(ui->action_3,SIGNAL(triggered(bool)),this,SLOT(change_to_sport_data_form()));
     connect(ui->action_Device_Query,SIGNAL(triggered(bool)),this,SLOT(change_to_device_query_form()));
-    connect(ui->action_feed,SIGNAL(triggered(bool)),this,SLOT(change_to_other_info_form()));
+
+    connect(ui->action_feed,SIGNAL(triggered(bool)),this,SLOT(change_to_info_feed()));
+    connect(ui->action_vacine,SIGNAL(triggered(bool)),this,SLOT(change_to_info_vacine()));
+    connect(ui->action_product,SIGNAL(triggered(bool)),this,SLOT(change_to_info_product()));
+
     connect(ui->action_feeding,SIGNAL(triggered(bool)),this,SLOT(change_to_other_data_form()));
     connect(ui->action,SIGNAL(triggered(bool)),bdDialog,SLOT(show()));
 
@@ -78,6 +84,36 @@ void MainWindow::change_to_other_data_form(){
     ui->stackedWidget->setCurrentWidget(otherDataForm);
 }
 
+void MainWindow::change_to_info_feed(){
+    otherInfoForm->setInfoType(0);
+    otherInfoForm->autoUpdateTableView();
+    change_to_other_info_form();
+}
+
+void MainWindow::change_to_info_vacine(){
+    otherInfoForm->setInfoType(1);
+    otherInfoForm->autoUpdateTableView();
+    change_to_other_info_form();
+}
+
+void MainWindow::change_to_info_product(){
+    otherInfoForm->setInfoType(2);
+    otherInfoForm->autoUpdateTableView();
+    change_to_other_info_form();
+}
+
+void MainWindow::change_to_data_feeding(){
+    change_to_other_data_form();
+}
+
+void MainWindow::change_to_data_antiepidemic(){
+    change_to_other_data_form();
+}
+
+void MainWindow::change_to_data_yield(){
+    change_to_other_data_form();
+}
+
 void MainWindow::updateAllTables(){
     goatQueryForm->refreshView();
     deviceQueryForm->refreshView();
@@ -90,6 +126,7 @@ void MainWindow::loginOK(){
     ui->actionLogin->setText("已登录");
     ui->actionLogin->setDisabled(true);
     updateAllTables();
+    otherInfoForm->autoUpdateTableView();
 }
 
 void MainWindow::doLogout(){
