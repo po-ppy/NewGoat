@@ -3,8 +3,10 @@
 
 #include <QWidget>
 #include <db.h>
+#include <QSql>
 #include <QSortFilterProxyModel>
-#include <QSqlQueryModel>
+//#include <QSqlQueryModel>
+#include <QSqlTableModel>
 #include <QDebug>
 #include <QDateTime>
 #include <QModelIndexList>
@@ -16,6 +18,8 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QAbstractItemView>
+#include <QSqlRecord>
+#include <QVector>
 
 namespace Ui {
 class OtherInfoForm;
@@ -29,6 +33,7 @@ public:
     explicit OtherInfoForm(QWidget *parent = nullptr);
     ~OtherInfoForm();
     bool setInfoType(int temp);//0 -- feed, 1 -- vacine, 2 -- product
+    void initMenu();
 
 private slots:
     void on_addMoreButton_clicked();
@@ -36,6 +41,17 @@ private slots:
 
     void on_removeButton_clicked();
     void deleteSelected();
+    void updateData(int row, QSqlRecord &record);
+    void onInsertNewRow(int row,QSqlRecord &record);
+    QString createId();
+    void addOne();
+    void addMore();
+    void saveChange();
+
+
+    void on_saveChangeButton_clicked();
+
+    void on_tableView_customContextMenuRequested(const QPoint &pos);
 
 public slots:
     void updateTableView();
@@ -46,8 +62,22 @@ private:
     Ui::OtherInfoForm *ui;
     int infoType;
     int preInfoType;
+    QList<QString> feedHeadList;
+    QList<QString> vacineHeadList;
+    QList<QString> productHeadList;
+
     QSqlQueryModel *sqlQueryModel;
+    QSqlTableModel *sqlTableModel;
     QSortFilterProxyModel *sortFilterProxyModel;
+
+    QMenu *cmenu;
+    QAction *actionAdd;
+    QAction *actionRemove;
+    QAction *actionAddMore;
+    QAction *actionSaveChange;
+//    QAction *actionR5;
+//    QAction *actionR6;
+
 };
 
 #endif // OTHERINFOFORM_H
