@@ -38,7 +38,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action_vacine,SIGNAL(triggered(bool)),this,SLOT(change_to_info_vacine()));
     connect(ui->action_product,SIGNAL(triggered(bool)),this,SLOT(change_to_info_product()));
 
-    connect(ui->action_feeding,SIGNAL(triggered(bool)),this,SLOT(change_to_other_data_form()));
+    connect(ui->action_feeding,SIGNAL(triggered(bool)),this,SLOT(change_to_data_feeding()));
+    connect(ui->action_antiepidemic,SIGNAL(triggered(bool)),this,SLOT(change_to_data_antiepidemic()));
+    connect(ui->action_yield,SIGNAL(triggered(bool)),this,SLOT(change_to_data_yield()));
     connect(ui->action,SIGNAL(triggered(bool)),bdDialog,SLOT(show()));
 
     connect(goatQueryForm,SIGNAL(updateSignal()),this,SLOT(updateAllTables()));
@@ -103,14 +105,20 @@ void MainWindow::change_to_info_product(){
 }
 
 void MainWindow::change_to_data_feeding(){
+    otherDataForm->setDataType(0);
+    otherDataForm->autoUpdateTableView();
     change_to_other_data_form();
 }
 
 void MainWindow::change_to_data_antiepidemic(){
+    otherDataForm->setDataType(1);
+    otherDataForm->autoUpdateTableView();
     change_to_other_data_form();
 }
 
 void MainWindow::change_to_data_yield(){
+    otherDataForm->setDataType(2);
+    otherDataForm->autoUpdateTableView();
     change_to_other_data_form();
 }
 
@@ -127,6 +135,7 @@ void MainWindow::loginOK(){
     ui->actionLogin->setDisabled(true);
     updateAllTables();
     otherInfoForm->autoUpdateTableView();
+    otherDataForm->autoUpdateTableView();
 }
 
 void MainWindow::doLogout(){

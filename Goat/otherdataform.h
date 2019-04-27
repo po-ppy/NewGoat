@@ -15,6 +15,8 @@
 #include <QInputDialog>
 #include <QFile>
 #include <QFileDialog>
+#include <QSqlError>
+#include <QMap>
 
 namespace Ui {
 class OtherDataForm;
@@ -27,14 +29,38 @@ class OtherDataForm : public QWidget
 public:
     explicit OtherDataForm(QWidget *parent = nullptr);
     ~OtherDataForm();
-
+    bool setDataType(int temp);//0 -- feedingData, 1 -- antiepidemicData, 2 -- yieldData
 private slots:
     void on_showPushButton_clicked();
+
+    void on_showAllCheckBox_stateChanged(int arg1);
+
+    void on_startTimeDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+
+    void on_endTimeDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+
+    void on_keyWordCheckBox_stateChanged(int arg1);
+
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
+    void on_keyWordLineEdit_returnPressed();
+
+    void on_addButton_clicked();
+
+public slots:
+    void updateTableView();
+    void autoUpdateTableView();
+    void updateKeyWord();
+    void keyWordSearch();
+    void addOne();
 
 private:
     Ui::OtherDataForm *ui;
     QSqlQueryModel *sqlQueryModel;
     QSortFilterProxyModel *sortFilterProxyModel;
+    int dataType;
+    int preDataType;
+    QMap<QString,QString> keyWordMap;
 };
 
 #endif // OTHERDATAFORM_H

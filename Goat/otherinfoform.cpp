@@ -69,8 +69,6 @@ void OtherInfoForm::updateTableView(){
         }
         break;
     }
-//    connect(sqlTableModel,SIGNAL(primeInsert(int,QSqlRecord &)),this,SLOT(onInsertNewRow(int row, QSqlRecord &record)));
-//    QObject::connect(sqlTableModel,SIGNAL(dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = Qt::EditRole)),this,SLOT(updateData(const QModelIndex &topLeft, const QModelIndex &bottomRight)));
 
     ui->tableView->setModel(sqlTableModel);
     ui->tableView->show();
@@ -106,7 +104,6 @@ void OtherInfoForm::updateTableView(){
     for(int i = 0; i < tempCount;i++){
         ui->tableView->horizontalHeader()->setSectionResizeMode(i,QHeaderView::ResizeToContents);
     }
-//    connect(ui->tableView->model(),SIGNAL(beforeUpdate(int, QSqlRecord &)),this,SLOT(updateData(int, QSqlRecord &)));
 }
 
 void OtherInfoForm::autoUpdateTableView(){
