@@ -223,7 +223,7 @@ void OtherDataForm::on_keyWordLineEdit_returnPressed()
 
 void OtherDataForm::on_addButton_clicked()
 {
-
+    QMessageBox::warning(this,"火警","某舍发出火警信息，请管理员尽快查看，排除险情！！");
     addOne();
 }
 
