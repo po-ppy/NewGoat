@@ -31,6 +31,9 @@ public slots:
     void setDB(QSqlDatabase &inDB);
     bool setClient(QTcpSocket *inClient);
     void testData(QList<QByteArray> todoList,QSqlDatabase &inDB);
+    void dataPro(QList<QByteArray> todoList,QSqlDatabase &inDB);
+    void eventPro(QList<QByteArray> todoList,QSqlDatabase &inDB);
+    void sportPro(QList<QByteArray> todoList,QSqlDatabase &inDB);
 
 private:
     bool runFlag;

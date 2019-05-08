@@ -13,6 +13,7 @@ TARGET = Goat
 TEMPLATE = app
 
 SOURCES += main.cpp\
+    adddatadialog.cpp \
         mainwindow.cpp \
     mainform.cpp \
     sportdataform.cpp \
@@ -30,6 +31,7 @@ SOURCES += main.cpp\
     otherdataform.cpp
 
 HEADERS  += mainwindow.h \
+    adddatadialog.h \
     mainform.h \
     sportdataform.h \
     goatinfoform.h \
@@ -46,6 +48,7 @@ HEADERS  += mainwindow.h \
     otherdataform.h
 
 FORMS    += mainwindow.ui \
+    adddatadialog.ui \
     form.ui \
     mainform.ui \
     sportdataform.ui \

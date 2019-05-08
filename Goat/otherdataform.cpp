@@ -12,6 +12,8 @@ OtherDataForm::OtherDataForm(QWidget *parent) :
     dataType = 0;
     preDataType = 2;
 
+    initMenu();
+
     keyWordMap.insert("奶山羊编号","c.goatId");
     keyWordMap.insert("舍号","houseId");
     keyWordMap.insert("饲料名称","feedName");
@@ -26,16 +28,19 @@ OtherDataForm::OtherDataForm(QWidget *parent) :
     keyWordMap.insert("饲喂备注","feedingRemark");
     keyWordMap.insert("防疫备注","antiepidemicRemark");
 
-
-
     ui->showAllCheckBox->setCheckState(Qt::Checked);
     ui->keyWordCheckBox->setCheckState(Qt::Unchecked);
+
+    addDataDialog = new AddDataDialog(this);
+
+    connect(addDataDialog,SIGNAL(updateTab()),this,SLOT(updateTableView()));
 
     ui->startTimeCheckBox->hide();
     ui->startTimeDateTimeEdit->hide();
     ui->label_3->hide();
     ui->endTimeCheckBox->hide();
     ui->endTimeDateTimeEdit->hide();
+
 
 }
 
@@ -69,6 +74,7 @@ bool OtherDataForm::setDataType(int temp){
     ui->showAllCheckBox->setCheckState(Qt::Checked);
     ui->keyWordCheckBox->setCheckState(Qt::Unchecked);
     //updateKeyWord();
+    addDataDialog->setDataType(dataType);
     return true;
 }
 
@@ -80,13 +86,13 @@ void OtherDataForm::updateTableView(){
         if(ui->keyWordCheckBox->isChecked()){
             switch (dataType) {
             case 0 :
-                SQL_keyword = "select a.goatId as 奶山羊编号, c.houseId as 舍号, b.feedName as 饲料名称, a.feedLevel as 饲喂量, a.inTime as 饲喂时间, a.feedingRemark as 饲喂备注 from feedingData a join feedInfo b join goatInfo c on a.feedId = b.feedId and a.goatId = c.goatId where :thekey like :theword ;";
+                SQL_keyword = "select a.id as ID, a.goatId as 奶山羊编号, c.houseId as 舍号, b.feedName as 饲料名称, a.feedLevel as 饲喂量, a.inTime as 饲喂时间, a.feedingRemark as 饲喂备注 from feedingData a join feedInfo b join goatInfo c on a.feedId = b.feedId and a.goatId = c.goatId where :thekey like :theword ;";
                 break;
             case 1 :
-                SQL_keyword = "select a.goatId as 奶山羊编号, c.houseId as 舍号, b.vacineName as 疫苗名称, a.inTime as 防疫时间, a.antiepidemicRemark as 防疫备注 from antiepidemicData a join vacineInfo b join goatInfo c on a.vacineId = b.vacineId and a.goatId = c.goatId where :thekey like :theword;";
+                SQL_keyword = "select a.id as ID, a.goatId as 奶山羊编号, c.houseId as 舍号, b.vacineName as 疫苗名称, a.inTime as 防疫时间, a.antiepidemicRemark as 防疫备注 from antiepidemicData a join vacineInfo b join goatInfo c on a.vacineId = b.vacineId and a.goatId = c.goatId where :thekey like :theword;";
                 break;
             case 2:
-                SQL_keyword = "select a.goatId as 奶山羊编号, c.houseId as 舍号, b.productName as 产品名称, a.yield as 产量, a.outTime as 产出时间, a.yieldRemark as 产量备注 from yieldData a join productInfo b join goatInfo c on a.productId = b.productId and a.goatId = c.goatId where :thekey like :theword;";
+                SQL_keyword = "select a.id as ID, a.goatId as 奶山羊编号, c.houseId as 舍号, b.productName as 产品名称, a.yield as 产量, a.outTime as 产出时间, a.yieldRemark as 产量备注 from yieldData a join productInfo b join goatInfo c on a.productId = b.productId and a.goatId = c.goatId where :thekey like :theword;";
                 break;
             default:
                 dataType = 0;
@@ -108,13 +114,13 @@ void OtherDataForm::updateTableView(){
         }else{
             switch (dataType) {
             case 0 :
-                query.exec("select a.goatId as 奶山羊编号, c.houseId as 舍号, b.feedName as 饲料名称, a.feedLevel as 饲喂量, a.inTime as 饲喂时间, a.feedingRemark as 备注 from feedingData a join feedInfo b join goatInfo c on a.feedId = b.feedId and a.goatId = c.goatId;");
+                query.exec("select a.id as ID, a.goatId as 奶山羊编号, c.houseId as 舍号, b.feedName as 饲料名称, a.feedLevel as 饲喂量, a.inTime as 饲喂时间, a.feedingRemark as 备注 from feedingData a join feedInfo b join goatInfo c on a.feedId = b.feedId and a.goatId = c.goatId;");
                 break;
             case 1 :
-                query.exec("select a.goatId as 奶山羊编号, c.houseId as 舍号, b.vacineName as 疫苗名称, a.inTime as 防疫时间, a.antiepidemicRemark as 备注 from antiepidemicData a join vacineInfo b join goatInfo c on a.vacineId = b.vacineId and a.goatId = c.goatId;");
+                query.exec("select a.id as ID, a.goatId as 奶山羊编号, c.houseId as 舍号, b.vacineName as 疫苗名称, a.inTime as 防疫时间, a.antiepidemicRemark as 备注 from antiepidemicData a join vacineInfo b join goatInfo c on a.vacineId = b.vacineId and a.goatId = c.goatId;");
                 break;
             case 2:
-                query.exec("select a.goatId as 奶山羊编号, c.houseId as 舍号, b.productName as 产品名称, a.yield as 产量, a.outTime as 产出时间, a.yieldRemark as 备注 from yieldData a join productInfo b join goatInfo c on a.productId = b.productId and a.goatId = c.goatId;;");
+                query.exec("select a.id as ID, a.goatId as 奶山羊编号, c.houseId as 舍号, b.productName as 产品名称, a.yield as 产量, a.outTime as 产出时间, a.yieldRemark as 备注 from yieldData a join productInfo b join goatInfo c on a.productId = b.productId and a.goatId = c.goatId;;");
                 break;
             default:
                 dataType = 0;
@@ -175,7 +181,48 @@ void OtherDataForm::on_showAllCheckBox_stateChanged(int arg1)
 }
 
 void OtherDataForm::addOne(){
-    sqlQueryModel->insertRow(sqlQueryModel->rowCount());
+    addDataDialog->show();
+}
+
+void OtherDataForm::deleteSelected(){
+    QModelIndexList tempList = ui->tableView->selectionModel()->selectedIndexes();
+    if(tempList.size() > 0){
+        int confirm = QMessageBox::question(this,"确认","确定删除选中数据吗?",QMessageBox::Yes,QMessageBox::No);
+        if(confirm != QMessageBox::Yes){
+            return;
+        }
+    }else{
+        return;
+    }
+
+    QList<int> list;
+    foreach(QModelIndex temp, tempList){
+        if(!list.contains(temp.row())){
+            list.append(temp.row());
+        }
+    }
+
+
+    QSqlQuery query;
+    switch (dataType) {
+    case 0 :
+        query.prepare("delete from feedingData where id = :theId;");
+        break;
+    case 1 :
+        query.prepare("delete from antiepidemicData where id = :theId;");
+        break;
+    case 2:
+        query.prepare("delete from yieldData where id = :theId;");
+        break;
+    }
+    //query.prepare("delete from deviceInfo where deviceId = :deviceId;");
+    foreach (int temp, list) {
+        query.bindValue(":theId",ui->tableView->model()->index(temp,0).data().toString());
+        query.exec();
+        //qDebug() << ui->tableView->model()->index(temp,0).data().toString();
+    }
+//    emit updateSignal();
+    updateTableView();
 }
 
 void OtherDataForm::on_startTimeDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
@@ -223,7 +270,7 @@ void OtherDataForm::on_keyWordLineEdit_returnPressed()
 
 void OtherDataForm::on_addButton_clicked()
 {
-    QMessageBox::warning(this,"火警","某舍发出火警信息，请管理员尽快查看，排除险情！！");
+//    QMessageBox::warning(this,"火警","某舍发出火警信息，请管理员尽快查看，排除险情！！");
     addOne();
 }
 
@@ -234,3 +281,25 @@ bool QAbstractItemModel::insertRows(int row, int count, const QModelIndex &paren
     return  true;
 }
 
+void OtherDataForm::initMenu(){
+    cmenu = new QMenu(ui->tableView);
+    actionAdd = cmenu->addAction("添加");
+    actionRemove = cmenu->addAction("移除");
+
+    connect(actionAdd,SIGNAL(triggered(bool)),this,SLOT(addOne()));
+    connect(actionRemove,SIGNAL(triggered(bool)),this,SLOT(deleteSelected()));
+
+}
+
+
+void OtherDataForm::on_removeButton_clicked()
+{
+    deleteSelected();
+}
+
+void OtherDataForm::on_tableView_customContextMenuRequested(const QPoint &pos)
+{
+    if(ui->tableView->selectionModel()->selectedIndexes().size() > 0){
+        cmenu->exec(QCursor::pos());
+    }
+}

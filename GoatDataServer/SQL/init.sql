@@ -15,7 +15,7 @@ create table deviceInfo(id  int primary key auto_increment,deviceId varchar(40) 
 
 # 绑定信息表
 create table bindingInfo(bindingId int primary key auto_increment,goatId varchar(40) not null unique, deviceId varchar(40) not null unique);
-
+create table houseBindingInfo(id int primary key auto_increment,houseId varchar(100) not null,deviceId varchar(40) not null unique);
 # 路由设备表
 create table routerInfo(id int primary key auto_increment,deviceId varchar(40) not null unique,deviceState varchar(20),inTime datetime);
 

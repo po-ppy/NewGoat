@@ -17,6 +17,7 @@
 #include <QFileDialog>
 #include <QSqlError>
 #include <QMap>
+#include <adddatadialog.h>
 
 namespace Ui {
 class OtherDataForm;
@@ -47,12 +48,18 @@ private slots:
 
     void on_addButton_clicked();
 
+    void on_removeButton_clicked();
+
+    void on_tableView_customContextMenuRequested(const QPoint &pos);
+
 public slots:
     void updateTableView();
     void autoUpdateTableView();
     void updateKeyWord();
     void keyWordSearch();
     void addOne();
+    void deleteSelected();
+    void initMenu();
 
 private:
     Ui::OtherDataForm *ui;
@@ -61,6 +68,11 @@ private:
     int dataType;
     int preDataType;
     QMap<QString,QString> keyWordMap;
+    AddDataDialog *addDataDialog;
+
+    QMenu *cmenu;
+    QAction *actionAdd;
+    QAction *actionRemove;
 };
 
 #endif // OTHERDATAFORM_H
