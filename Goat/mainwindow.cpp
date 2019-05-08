@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->action_feed->setCheckable(true);
 
     bdDialog = new bindingDialog(this);
+    houseBindingDialog = new HouseBindingDialog(this);
 
     ui->stackedWidget->addWidget(sportDataForm);
     ui->stackedWidget->addWidget(goatQueryForm);
@@ -42,10 +43,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action_antiepidemic,SIGNAL(triggered(bool)),this,SLOT(change_to_data_antiepidemic()));
     connect(ui->action_yield,SIGNAL(triggered(bool)),this,SLOT(change_to_data_yield()));
     connect(ui->action,SIGNAL(triggered(bool)),bdDialog,SLOT(show()));
+    connect(ui->action_houseBinding,SIGNAL(triggered(bool)),houseBindingDialog,SLOT(show()));
 
     connect(goatQueryForm,SIGNAL(updateSignal()),this,SLOT(updateAllTables()));
     connect(deviceQueryForm,SIGNAL(updateSignal()),this,SLOT(updateAllTables()));
     connect(bdDialog,SIGNAL(updateSignal()),this,SLOT(updateAllTables()));
+    connect(houseBindingDialog,SIGNAL(updateSignal()),this,SLOT(updateAllTables()));
     //connect(ui->action_2,SIGNAL(triggered(bool)),this,SLOT(change_to_sport_data_form()));
 
     connect(goatQueryForm,SIGNAL(goatIdSignal(QString)),bdDialog,SLOT(receiveGoatId(QString)));
@@ -127,6 +130,8 @@ void MainWindow::updateAllTables(){
     deviceQueryForm->refreshView();
     bdDialog->updateGoatTable();
     bdDialog->updateDeviceTable();
+    houseBindingDialog->updateHouseTable();
+    houseBindingDialog->updateDeviceTable();
     sportDataForm->updateTabs();
 }
 

@@ -55,6 +55,8 @@ private slots:
     void on_tableView_customContextMenuRequested(const QPoint &pos);
 
 
+    void on_goatCheckBox_stateChanged(int arg1);
+
 private:
     Ui::DeviceQueryForm *ui;
     QSqlQueryModel *sqlQueryModel;

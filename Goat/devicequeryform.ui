@@ -46,6 +46,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="goatCheckBox">
+       <property name="text">
+        <string>奶山羊绑定</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="font">
         <font>

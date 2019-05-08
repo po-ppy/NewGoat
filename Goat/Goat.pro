@@ -14,6 +14,7 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     adddatadialog.cpp \
+    housebindingdialog.cpp \
         mainwindow.cpp \
     mainform.cpp \
     sportdataform.cpp \
@@ -32,6 +33,7 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     adddatadialog.h \
+    housebindingdialog.h \
     mainform.h \
     sportdataform.h \
     goatinfoform.h \
@@ -50,6 +52,7 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     adddatadialog.ui \
     form.ui \
+    housebindingdialog.ui \
     mainform.ui \
     sportdataform.ui \
     goatinfoform.ui \

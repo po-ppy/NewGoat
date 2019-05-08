@@ -10,6 +10,7 @@
 #include <otherdataform.h>
 #include <logindialog.h>
 #include <helpdialog.h>
+#include <housebindingdialog.h>
 
 
 namespace Ui {
@@ -48,6 +49,7 @@ private:
     OtherInfoForm *otherInfoForm;
     OtherDataForm *otherDataForm;
     bindingDialog *bdDialog;
+    HouseBindingDialog *houseBindingDialog;
     LoginDialog *loginDialog;
     HelpDialog *helpDialog;
 };

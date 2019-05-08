@@ -83,6 +83,7 @@
      <string>设置(&amp;S)</string>
     </property>
     <addaction name="action"/>
+    <addaction name="action_houseBinding"/>
    </widget>
    <widget class="QMenu" name="menu_H">
     <property name="title">
@@ -140,7 +141,7 @@
   </action>
   <action name="action">
    <property name="text">
-    <string>绑定设置</string>
+    <string>奶山羊绑定设置</string>
    </property>
   </action>
   <action name="actionExit">
@@ -185,6 +186,11 @@
   <action name="action_product">
    <property name="text">
     <string>产品信息</string>
+   </property>
+  </action>
+  <action name="action_houseBinding">
+   <property name="text">
+    <string>羊舍绑定设置</string>
    </property>
   </action>
  </widget>

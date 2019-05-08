@@ -12,6 +12,7 @@ create table goatInfo(id int primary key auto_increment, goatId varchar(40) not 
 
 # 设备信息表
 create table deviceInfo(id  int primary key auto_increment,deviceId varchar(40) not null unique,deviceState varchar(20), inTime datetime);
+create table houseDeviceInfo(id  int primary key auto_increment,deviceId varchar(40) not null unique,deviceState varchar(20), inTime datetime);
 
 # 绑定信息表
 create table bindingInfo(bindingId int primary key auto_increment,goatId varchar(40) not null unique, deviceId varchar(40) not null unique);
@@ -49,6 +50,9 @@ alter table goatInfo add constraint fk_houseId foreign key(houseId) references h
 
 alter table bindingInfo add constraint fk_goatId foreign key(goatId) references goatInfo(goatId) on delete cascade on update cascade;
 alter table bindingInfo add constraint fk_deviceId foreign key(deviceId) references deviceInfo(deviceId) on delete cascade on update cascade;
+
+alter table houseBindingInfo add constraint fk_houseId_to_houseBingdingInfo foreign key(houseId) references houseInfo(houseId) on delete cascade on update cascade;
+alter table houseBindingInfo add constraint fk_deviceId_to_houseBindignInfo foreign key(deviceId) references houseDeviceInfo(deviceId) on delete cascade on update cascade;
 
 alter table antiepidemicData add constraint fk_goatId_to_antiepidemicData foreign key(goatId) references goatInfo(goatId) on delete cascade on update cascade;
 alter table antiepidemicData add constraint fk_vacineId_to_antiepidemicData foreign key(vacineId) references vacineInfo(vacineId) on delete cascade on update cascade;
@@ -126,6 +130,44 @@ begin
   update deviceInfo set deviceState = '闲置' where deviceId = old.deviceId;
 end||
 
+
+
+
+########################
+create trigger af_house_binding after insert
+on houseBindingInfo for each row
+begin
+  update houseDeviceInfo set deviceState = '已绑定' where deviceId = NEW.deviceId;
+end||
+
+create trigger af_house_binding_update after update
+on houseBindingInfo for each row
+begin
+  update houseDeviceInfo set deviceState = '闲置' where deviceId = OLD.deviceId;
+  update houseDeviceInfo set deviceState = '已绑定' where deviceId = NEW.deviceId;
+end||
+
+#create trigger af_device_update after update
+#on deviceInfo for each row
+#begin
+#  if NEW.deviceState = '故障' then
+#  delete from bindingInfo where deviceId = NEW.deviceId;
+#  end if;
+#end||
+
+create trigger bf_del_house_deivce before delete
+on houseInfo for each row
+begin
+  update houseDeviceInfo set deviceState = '闲置' where houseDeviceInfo.deviceId in (select hosueBindingInfo.deviceId from houseBindingInfo where houseBindingInfo.houseId = old.houseId);
+end||
+
+create trigger bf_del_house_binding before delete
+on houseBindingInfo for each row
+begin
+  update houseDeviceInfo set deviceState = '闲置' where deviceId = old.deviceId;
+end||
+########################
+
 create trigger bf_insert_sportData before insert
 on sportData for each row
 begin
@@ -148,8 +190,8 @@ end||
 create trigger bf_insert_housetData before insert
 on houseData for each row
 begin
-  #set @tempHouseId = (select houseId from houseBindingInfo where routerId = NEW.houseId);
-  set @tempHouseId = (select a.houseId  from goatInfo a left join bindingInfo b on a.goatId = b.goatId where b.deviceId = NEW.houseId);
+  set @tempHouseId = (select houseId from houseBindingInfo where deviceId = NEW.houseId);
+  #set @tempHouseId = (select a.houseId  from goatInfo a left join bindingInfo b on a.goatId = b.goatId where b.deviceId = NEW.houseId);
   if(@tempGoatId is not null) then
     set NEW.houseId = @tempHouseId;
   end if;

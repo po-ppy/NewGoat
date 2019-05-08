@@ -24,6 +24,8 @@ DeviceQueryForm::DeviceQueryForm(QWidget *parent) :
     connect(actionR4,SIGNAL(triggered(bool)),this,SLOT(restartSelected()));
     connect(actionR5,SIGNAL(triggered(bool)),this,SLOT(deleteSelected()));
     connect(actionR6,SIGNAL(triggered(bool)),this,SLOT(exportSelected()));
+
+    ui->goatCheckBox->setCheckState(Qt::Unchecked);
 }
 
 DeviceQueryForm::~DeviceQueryForm()
@@ -34,7 +36,12 @@ DeviceQueryForm::~DeviceQueryForm()
 void DeviceQueryForm::updateTableWidgest(){
     refreshFlag = 0;
     QSqlQuery query;
-    query.prepare("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.goatId,'无') as 绑定山羊编号,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from deviceInfo a left join bindingInfo c on a.deviceId = c.deviceId left join goatInfo b on b.goatId = c.goatId where b.houseId = :houseId;");
+    if(ui->goatCheckBox->isChecked()){
+        query.prepare("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.goatId,'无') as 绑定山羊编号,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from deviceInfo a left join bindingInfo c on a.deviceId = c.deviceId right join goatInfo b on b.goatId = c.goatId where b.houseId = :houseId;");
+    }else {
+        query.prepare("select a.deviceId as 设备编号, a.deviceState as 设备状态,b.houseId as 绑定舍号,a.inTime as 购入时间 from houseDeviceInfo a left join houseBindingInfo b on a.deviceId = b.deviceId where a.houseId = :houseId;");
+    }
+
     query.bindValue(":houseId",ui->comboBox->currentText());
     query.exec();
     sqlQueryModel->setQuery(query);
@@ -48,7 +55,11 @@ void DeviceQueryForm::updateTableWidgest(){
 
 void DeviceQueryForm::showAllData(){
     refreshFlag = 1;
-    sqlQueryModel->setQuery("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.goatId,'无') as 绑定山羊编号,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from deviceInfo a left join bindingInfo c on a.deviceId = c.deviceId left join goatInfo b on b.goatId = c.goatId;",DB::instance().data()->getDb());
+    if(ui->goatCheckBox->isChecked()){
+        sqlQueryModel->setQuery("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.goatId,'无') as 绑定山羊编号,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from deviceInfo a left join bindingInfo c on a.deviceId = c.deviceId left join goatInfo b on b.goatId = c.goatId;",DB::instance().data()->getDb());
+    }else {
+        sqlQueryModel->setQuery("select a.deviceId as 设备编号, a.deviceState as 设备状态,b.houseId as 绑定舍号,a.inTime as 购入时间 from houseDeviceInfo a left join houseBindingInfo b on a.deviceId = b.deviceId;",DB::instance().data()->getDb());
+    }
     sortFilterProxyModel->setDynamicSortFilter(true);
     sortFilterProxyModel->setSourceModel(sqlQueryModel);
 
@@ -60,7 +71,11 @@ void DeviceQueryForm::showAllData(){
 void DeviceQueryForm::updateTableWidgestByState(){
     refreshFlag = 2;
     QSqlQuery query;
-    query.prepare("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.goatId,'无') as 绑定山羊编号,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from deviceInfo a left join bindingInfo c on a.deviceId = c.deviceId left join goatInfo b on b.goatId = c.goatId where a.deviceState = :deviceState;");
+    if(ui->goatCheckBox->isChecked()){
+        query.prepare("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.goatId,'无') as 绑定山羊编号,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from deviceInfo a left join bindingInfo c on a.deviceId = c.deviceId left join goatInfo b on b.goatId = c.goatId where a.deviceState = :deviceState;");
+    }else {
+        query.prepare("select a.deviceId as 设备编号, a.deviceState as 设备状态,b.houseId as 绑定舍号,a.inTime as 购入时间 from houseDeviceInfo a left join houseBindingInfo b on a.deviceId = b.deviceId where a.deviceState = :deviceState;");
+    }
     query.bindValue(":deviceState",ui->comboBox_2->currentText());
     query.exec();
     sqlQueryModel->setQuery(query);
@@ -118,7 +133,11 @@ void DeviceQueryForm::unbindSelected(){
     }
 
     QSqlQuery query;
-    query.prepare("delete from bindingInfo where deviceId = :deviceId;");
+    if(ui->goatCheckBox->isChecked()){
+        query.prepare("delete from bindingInfo where deviceId = :deviceId;");
+    }else {
+        query.prepare("delete from houseBindingInfo where deviceId = :deviceId;");
+    }
     foreach (int temp, list) {
         query.bindValue(":deviceId",ui->tableView->model()->index(temp,0).data().toString());
         query.exec();
@@ -162,9 +181,16 @@ void DeviceQueryForm::errorSelected(){
 
     QSqlQuery query;
     QSqlQuery delQuery;
+    if(ui->goatCheckBox->isChecked()){
+        delQuery.prepare("delete from bindingInfo where deviceId = :deviceId;");
+        query.prepare("update deviceInfo set deviceState = '故障' where deviceId = :deviceId;");
+    }else {
+        delQuery.prepare("delete from houseBindingInfo where deviceId = :deviceId;");
+        query.prepare("update houseDeviceInfo set deviceState = '故障' where deviceId = :deviceId;");
+    }
+
     //query.prepare("delete from bindingInfo where goatId = :goatId;");
-    delQuery.prepare("delete from bindingInfo where deviceId = :deviceId;");
-    query.prepare("update deviceInfo set deviceState = '故障' where deviceId = :deviceId;");
+
     foreach (int temp, list) {
         delQuery.bindValue(":deviceId",ui->tableView->model()->index(temp,0).data());
         query.bindValue(":deviceId",ui->tableView->model()->index(temp,0).data());
@@ -185,7 +211,12 @@ void DeviceQueryForm::restartSelected(){
     }
 
     QSqlQuery query;
-    query.prepare("update deviceInfo set deviceState = '闲置' where deviceId = :deviceId;");
+    if(ui->goatCheckBox->isChecked()){
+        query.prepare("update deviceInfo set deviceState = '闲置' where deviceId = :deviceId;");
+    }else{
+        query.prepare("update houseDeviceInfo set deviceState = '闲置' where deviceId = :deviceId;");
+    }
+
     foreach (int temp, list) {
         query.bindValue(":deviceId",ui->tableView->model()->index(temp,0).data());
         query.exec();
@@ -208,7 +239,11 @@ void DeviceQueryForm::deleteSelected(){
     }
 
     QSqlQuery query;
-    query.prepare("delete from deviceInfo where deviceId = :deviceId;");
+    if(ui->goatCheckBox->isChecked()){
+        query.prepare("delete from deviceInfo where deviceId = :deviceId;");
+    }else{
+        query.prepare("delete from houseDeviceInfo where deviceId = :deviceId;");
+    }
     foreach (int temp, list) {
         query.bindValue(":deviceId",ui->tableView->model()->index(temp,0).data().toString());
         query.exec();
@@ -250,4 +285,9 @@ void DeviceQueryForm::updateHouseId(){
         }
     }
     refreshFlag = runFlag;
+}
+
+void DeviceQueryForm::on_goatCheckBox_stateChanged(int arg1)
+{
+    updateTableWidgest();
 }

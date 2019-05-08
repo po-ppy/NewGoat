@@ -231,16 +231,30 @@ void WorkThread::dataPro(QList<QByteArray> todoList,QSqlDatabase &inDB){
         return;
     }
 
-    inDB.transaction();
+    if(inDB.open()){
+        inDB.transaction();
+    }else{
+        qDebug() << "in dataPro(),--> db not open!";
+        return;
+    }
     QSqlQuery query(inDB);
-    query.prepare("insert into houseData(houseId,datatimem,wendu,shidu,eryang,anqi,guangzhao,pmer,pmshi,yanwu) values(:temp1,:temp2,:temp7,:temp8,:temp6,:temp5,:temp9,:temp3,:temp4,:temp10);");
+    query.prepare("insert into houseData(houseId,datatimem,wendu,shidu,eryang,anqi,guangzhao,pm25,pm10,yanwu) values(:temp1,:temp2,:temp7,:temp8,:temp6,:temp5,:temp9,:temp3,:temp4,:temp10);");
     for(int i = 1;i < 11; i++){
         query.bindValue(":temp"+QString::number(i),todoList.at(i));
     }
-    query.exec();
+    if(!query.exec()){
+        qDebug() << "insert error!";
+        QSqlError err;
+        err= query.lastError();
+        qDebug() << err.text();
+
+
+    }
     if(!inDB.commit()){
+        qDebug() << "faill to commit!!";
         inDB.rollback();
     }
+    inDB.close();
 }
 
 void WorkThread::sportPro(QList<QByteArray> todoList,QSqlDatabase &inDB){
@@ -258,27 +272,20 @@ void WorkThread::testData(QList<QByteArray> todoList,QSqlDatabase &inDB){
     time.start();
     qDebug() << QThread::currentThreadId() << " start";
     //qDebug() << QThread::currentThread()->objectName() << "  start";
-    QString receiveTime = "";
-    QString temperature = "";
-    QString humidity = "";
-    int msgcount = 0;
-    if(inDB.open()){
-        inDB.transaction();
-    }
+
     foreach (QByteArray temp, todoList) {
         if(temp.startsWith('D')){
-            dataPro(temp.split('#'));
+            qDebug() << temp;
+            dataPro(temp.split('#'),inDB);
         }else if (temp.startsWith('C')) {
-            eventPro(temp.split('#'));
+            qDebug() << temp;
+            eventPro(temp.split('#'),inDB);
         }else {
-            sportPro(temp.split('#'));
+            qDebug() << temp;
+            sportPro(temp.split('#'),inDB);
         }
     }
-
-    if(!inDB.commit()){
-        inDB.rollback();
-    }
-    inDB.close();
+//    inDB.close();
     qDebug() << QThread::currentThreadId() << time.elapsed()/1000.0 << "s stop";
 }
 
