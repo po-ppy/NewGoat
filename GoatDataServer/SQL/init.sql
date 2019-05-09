@@ -45,6 +45,11 @@ create table productInfo(productId varchar(40) primary key, productName varchar(
 # 产量信息表
 create table yieldData(id int primary key auto_increment,goatId varchar(40) not null,productId varchar(40) not null,yield varchar(40) not null,outTime datetime, yieldRemark varchar(200));
 
+# 事件信息表
+create table eventInfo(id int primary key auto_increment,eventId varchar(20) not null,eventMeaning varchar(200) not null);
+
+# 事件记录表
+create table eventData(id int primary key auto_increment,routerId varchar(40) not null,datatimem varchar(20) not null,eventId varchar(20) not null,deviceId varchar(40) not null);
 # 外键约束
 alter table goatInfo add constraint fk_houseId foreign key(houseId) references houseInfo(houseId) on delete cascade on update cascade;
 
@@ -192,7 +197,7 @@ on houseData for each row
 begin
   set @tempHouseId = (select houseId from houseBindingInfo where deviceId = NEW.houseId);
   #set @tempHouseId = (select a.houseId  from goatInfo a left join bindingInfo b on a.goatId = b.goatId where b.deviceId = NEW.houseId);
-  if(@tempGoatId is not null) then
+  if(@tempHouseId is not null) then
     set NEW.houseId = @tempHouseId;
   end if;
  

@@ -32,9 +32,24 @@ public slots:
     void updateHouseTable();
     void updateDeviceTable();
     void startBinding();
-    void receiveGoatId(QString goatId);
+    void receiveHouseId(QString houseId);
     void receiveDeviceId(QString deviceId);
     void addFromFile();
+
+private slots:
+    void on_houseDeviceCheckBox_stateChanged(int arg1);
+
+    void on_houseCheckBox_stateChanged(int arg1);
+
+    void on_houseTableView_doubleClicked(const QModelIndex &index);
+
+    void on_houseDeviceTableView_doubleClicked(const QModelIndex &index);
+
+    void on_doubleButton_2_clicked();
+
+    void on_confirmButton_2_clicked();
+
+    void on_selectFileButton_2_clicked();
 
 private:
     Ui::HouseBindingDialog *ui;

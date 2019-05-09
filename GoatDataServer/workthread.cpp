@@ -30,6 +30,7 @@ void WorkThread::stopThread(){
     //qDebug() << "stop ???";
     runFlag = false;
     disconnect(client,SIGNAL(readyRead()),this,SLOT(dataProcessing3()));
+    this->db.close();
     this->quit();
     this->wait();
 }
@@ -196,7 +197,7 @@ void WorkThread::dataProcessing3(){
      //qDebug() << "inter!!";
      QByteArray receiveInfo = client->readAll().trimmed().replace("\n","").replace("\x01","");
      //qDebug() << "is there nothing?";
-     //qDebug() << receiveInfo;
+     qDebug() << receiveInfo;
      QList<QByteArray> tempDataList = receiveInfo.split('*');
      tempDataList.removeAll(" ");
      tempDataList.removeAll("");
@@ -205,16 +206,17 @@ void WorkThread::dataProcessing3(){
      int len = 0;
      while(len+5 < allLength){
 
-         QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len,5),QSqlDatabase::cloneDatabase(this->db,QString::number(QDateTime::currentMSecsSinceEpoch()+tempTime.elapsed())));
-         //QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len,5),this->db);
+//         QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len,5),QSqlDatabase::cloneDatabase(this->db,QString::number(QDateTime::currentMSecsSinceEpoch()+tempTime.elapsed())));
+         QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len,5),this->db);
          msleep(5);
      }
-     QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len),QSqlDatabase::cloneDatabase(this->db,QString::number(QDateTime::currentMSecsSinceEpoch()+tempTime.elapsed())));
-     //QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len),this->db);
+//     QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len),QSqlDatabase::cloneDatabase(this->db,QString::number(QDateTime::currentMSecsSinceEpoch()+tempTime.elapsed())));
+     QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len),this->db);
 }
 
 void WorkThread::setDB(QSqlDatabase &inDB){
-    this->db = inDB;
+    this->db = QSqlDatabase::cloneDatabase(inDB,QString::number(QDateTime::currentMSecsSinceEpoch()));
+    this->db.open();
 }
 
 bool WorkThread::setClient(QTcpSocket *inClient){
@@ -226,6 +228,8 @@ bool WorkThread::setClient(QTcpSocket *inClient){
 
 void WorkThread::dataPro(QList<QByteArray> todoList,QSqlDatabase &inDB){
     qDebug() << "this is in dataPro();";
+    todoList.removeAll("");
+    todoList.removeAll(" ");
     if(todoList.size() != 11){
         qDebug() << "环境数据个数不为11";
         return;
@@ -254,7 +258,7 @@ void WorkThread::dataPro(QList<QByteArray> todoList,QSqlDatabase &inDB){
         qDebug() << "faill to commit!!";
         inDB.rollback();
     }
-    inDB.close();
+//    inDB.close();
 }
 
 void WorkThread::sportPro(QList<QByteArray> todoList,QSqlDatabase &inDB){
@@ -264,6 +268,37 @@ void WorkThread::sportPro(QList<QByteArray> todoList,QSqlDatabase &inDB){
 
 void WorkThread::eventPro(QList<QByteArray> todoList,QSqlDatabase &inDB){
     qDebug() << "this is in eventPro();";
+    todoList.removeAll("");
+    todoList.removeAll(" ");
+    if(todoList.size() != 5){
+        qDebug() << "事件信息个数不为5";
+        return;
+    }
+
+    if(inDB.open()){
+        inDB.transaction();
+    }else{
+        qDebug() << "in dataPro(),--> db not open!";
+        return;
+    }
+    QSqlQuery query(inDB);
+    query.prepare("insert into eventData(routerId,datatimem,eventId,deviceId) values(:temp1,:temp2,:temp3,:temp4);");
+    for(int i = 1;i < 5; i++){
+        query.bindValue(":temp"+QString::number(i),todoList.at(i));
+    }
+    if(!query.exec()){
+        qDebug() << "insert error!";
+        QSqlError err;
+        err= query.lastError();
+        qDebug() << err.text();
+
+
+    }
+    if(!inDB.commit()){
+        qDebug() << "faill to commit!!";
+        inDB.rollback();
+    }
+//    inDB.close();
 
 }
 
@@ -285,7 +320,7 @@ void WorkThread::testData(QList<QByteArray> todoList,QSqlDatabase &inDB){
             sportPro(temp.split('#'),inDB);
         }
     }
-//    inDB.close();
+    inDB.close();
     qDebug() << QThread::currentThreadId() << time.elapsed()/1000.0 << "s stop";
 }
 

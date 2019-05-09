@@ -120,7 +120,12 @@ void DeviceQueryForm::on_tableView_customContextMenuRequested(const QPoint &pos)
 }
 
 void DeviceQueryForm::bindSelected(){
-    emit deviceIdSignal(ui->tableView->model()->index(ui->tableView->selectionModel()->selectedIndexes().at(0).row(),0).data().toString());
+    if(ui->goatCheckBox->isChecked()){
+        emit deviceIdSignal(ui->tableView->model()->index(ui->tableView->selectionModel()->selectedIndexes().at(0).row(),0).data().toString());
+    }else{
+        emit houseDeviceIdSignal(ui->tableView->model()->index(ui->tableView->selectionModel()->selectedIndexes().at(0).row(),0).data().toString());
+    }
+
 }
 
 void DeviceQueryForm::unbindSelected(){

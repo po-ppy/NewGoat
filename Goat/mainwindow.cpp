@@ -53,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(goatQueryForm,SIGNAL(goatIdSignal(QString)),bdDialog,SLOT(receiveGoatId(QString)));
     connect(deviceQueryForm,SIGNAL(deviceIdSignal(QString)),bdDialog,SLOT(receiveDeviceId(QString)));
+    connect(deviceQueryForm,SIGNAL(houseDeviceIdSignal(QString)),houseBindingDialog,SLOT(receiveDeviceId(QString)));
 
     connect(ui->actionLogin,SIGNAL(triggered(bool)),loginDialog,SLOT(show()));
     connect(loginDialog,SIGNAL(loginSignal()),this,SLOT(loginOK()));
@@ -141,6 +142,7 @@ void MainWindow::loginOK(){
     updateAllTables();
     otherInfoForm->autoUpdateTableView();
     otherDataForm->autoUpdateTableView();
+
 }
 
 void MainWindow::doLogout(){

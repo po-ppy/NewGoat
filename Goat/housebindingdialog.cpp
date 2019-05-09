@@ -35,9 +35,9 @@ void HouseBindingDialog::updateHouseTable(){
 
 void HouseBindingDialog::updateDeviceTable(){
     if(ui->houseDeviceCheckBox->isChecked()){
-        deviceSqlQueryModel->setQuery("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from houseDeviceInfo a left join houseBindingInfo c on a.deviceId = c.deviceId left join houseInfo b on b.hosueId = c.houseId where a.deviceState = '闲置';");
+        deviceSqlQueryModel->setQuery("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from houseDeviceInfo a left join houseBindingInfo c on a.deviceId = c.deviceId left join houseInfo b on b.houseId = c.houseId where a.deviceState = '闲置';");
     }else{
-        deviceSqlQueryModel->setQuery("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from houseDeviceInfo a left join houseBindingInfo c on a.deviceId = c.deviceId left join houseInfo b on b.hosueId = c.houseId where a.deviceState <> '故障';");
+        deviceSqlQueryModel->setQuery("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from houseDeviceInfo a left join houseBindingInfo c on a.deviceId = c.deviceId left join houseInfo b on b.houseId = c.houseId where a.deviceState <> '故障';");
     }
     deviceSortFilterProxyModel->setDynamicSortFilter(true);
     deviceSortFilterProxyModel->setSourceModel(deviceSqlQueryModel);
@@ -71,11 +71,11 @@ void HouseBindingDialog::startBinding(){
 
 }
 
-void HouseBindingDialog::receiveGoatId(QString goatId){
+void HouseBindingDialog::receiveHouseId(QString houseId){
     if(!this->isVisible()){
         this->show();
     }
-    ui->houseSelected->setText(goatId);
+    ui->houseSelected->setText(houseId);
 }
 
 void HouseBindingDialog::receiveDeviceId(QString deviceId){
@@ -121,4 +121,49 @@ void HouseBindingDialog::addFromFile(){
     }else{
         QMessageBox::warning(this,"警告","文件打开失败!");
     }
+}
+
+void HouseBindingDialog::on_houseDeviceCheckBox_stateChanged(int arg1)
+{
+    updateDeviceTable();
+}
+
+void HouseBindingDialog::on_houseCheckBox_stateChanged(int arg1)
+{
+    updateHouseTable();
+}
+
+void HouseBindingDialog::on_houseTableView_doubleClicked(const QModelIndex &index)
+{
+    ui->houseSelected->setText(ui->houseTableView->model()->index(index.row(),0).data().toString());
+    if(ui->houseDeviceSelected->text() != ""){
+        if(!ui->confirmButton_2->isEnabled()){
+            startBinding();
+        }
+    }
+}
+
+void HouseBindingDialog::on_houseDeviceTableView_doubleClicked(const QModelIndex &index)
+{
+    ui->houseDeviceSelected->setText(ui->houseDeviceTableView->model()->index(index.row(),0).data().toString());
+    if(ui->houseSelected->text() != ""){
+        if(!ui->confirmButton_2->isEnabled()){
+            startBinding();
+        }
+    }
+}
+
+void HouseBindingDialog::on_doubleButton_2_clicked()
+{
+    ui->confirmButton_2->setEnabled(!ui->confirmButton_2->isEnabled());
+}
+
+void HouseBindingDialog::on_confirmButton_2_clicked()
+{
+    startBinding();
+}
+
+void HouseBindingDialog::on_selectFileButton_2_clicked()
+{
+    addFromFile();
 }

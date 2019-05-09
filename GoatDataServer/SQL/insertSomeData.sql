@@ -99,4 +99,9 @@ insert into houseBindingInfo(houseId,deviceId) values('舍1','R0001');
 insert into houseBindingInfo(houseId,deviceId) values('舍2','R0002');
 insert into houseBindingInfo(houseId,deviceId) values('舍3','R0003');
 
+# 在事件信息表中添加数据
+insert into eventInfo(eventId,eventMeaning) values('0','无事发生');
+insert into eventInfo(eventId,eventMeaning) values('1','紧急火警');
+insert into eventInfo(eventId,eventMeaning) values('2','传感器数据监测不到');
+insert into eventInfo(eventId,eventMeaning) values('3','数据异常');
 

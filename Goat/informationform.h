@@ -9,6 +9,7 @@
 #include <QtCharts/QSplineSeries>
 #include <QtCharts/QScatterSeries>
 #include <QSqlQuery>
+#include <QSqlTableModel>
 #include <QSortFilterProxyModel>
 #include <QSqlQueryModel>
 #include <QDateTime>
@@ -18,6 +19,9 @@
 #include <QDebug>
 #include <QtMath>
 #include <QModelIndex>
+#include <QSqlError>
+#include <QDateTime>
+#include <db.h>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -33,20 +37,21 @@ public:
     explicit InformationForm(QWidget *parent = 0);
     ~InformationForm();
 public slots:
-    void createChart();
+//    void createChart();
     void setHouseId(QString inHouseId);
     QString getHouseId();
-    void updateAllData();
-    void updateGoatList();
-    void updateHouseData();
-    void updateChart();
-    double toG(double in);
-    double toG(QByteArray in);
-    double getG(double in1,double in2,double in3);
-    void autoShow();
-    void selectOne(int row,int col);
+    void initSqlTable();
+//    void updateAllData();
+//    void updateGoatList();
+//    void updateHouseData();
+//    void updateChart();
+//    double toG(double in);
+//    double toG(QByteArray in);
+//    double getG(double in1,double in2,double in3);
+//    void autoShow();
+//    void selectOne(int row,int col);
 private slots:
-    void on_tableView_doubleClicked(const QModelIndex &index);
+//    void on_tableView_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::InformationForm *ui;
@@ -56,26 +61,27 @@ private:
     QTimer *freshTimer;
 
     QSqlQueryModel *sqlQueryModel;
+    QSqlTableModel *sqlTableModel;
     QSortFilterProxyModel *sortFilterProxyModel;
 
-    QChart *chart;
-    QChartView *chartView;
-    QDateTimeAxis *axisX;
-    QValueAxis *axisY;
-    QSplineSeries *linex;
-    QSplineSeries *liney;
-    QSplineSeries *linez;
-    QSplineSeries *lineg;
+//    QChart *chart;
+//    QChartView *chartView;
+//    QDateTimeAxis *axisX;
+//    QValueAxis *axisY;
+//    QSplineSeries *linex;
+//    QSplineSeries *liney;
+//    QSplineSeries *linez;
+//    QSplineSeries *lineg;
 
-    //QScatterSeries *scatterx;
-    //QScatterSeries *scattery;
-    //QScatterSeries *scatterz;
-    QScatterSeries *scatterg;
+//    //QScatterSeries *scatterx;
+//    //QScatterSeries *scattery;
+//    //QScatterSeries *scatterz;
+//    QScatterSeries *scatterg;
 
-    QList<QPointF> datax ;
-    QList<QPointF> datay ;
-    QList<QPointF> dataz ;
-    QList<QPointF> datag ;
+//    QList<QPointF> datax ;
+//    QList<QPointF> datay ;
+//    QList<QPointF> dataz ;
+//    QList<QPointF> datag ;
 };
 
 #endif // INFORMATIONFORM_H

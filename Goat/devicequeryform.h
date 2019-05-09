@@ -29,6 +29,7 @@ public:
 signals:
     void updateSignal();
     void deviceIdSignal(QString);
+    void houseDeviceIdSignal(QString);
 public slots:
     void updateTableWidgest();
     void showAllData();

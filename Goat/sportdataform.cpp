@@ -33,9 +33,11 @@ void SportDataForm::updateTabs(){
         InformationForm *temp = new InformationForm();
         //MainForm *temp = new MainForm();
         temp->setHouseId(query.value(0).toString());
-        connect(this,SIGNAL(updateSignal()),temp,SLOT(updateGoatList()));
+//        connect(this,SIGNAL(updateSignal()),temp,SLOT(updateGoatList()));
+//        connect(this,SIGNAL(updateSignal()),temp,SLOT(initSqlTable()));
         //temp->moveToThread(wkThread);
         //wkThread->start();
+        temp->initSqlTable();
         ui->tabWidget->addTab(temp,QIcon(":/she.png"),query.value(0).toString());
     }
     if(memoryFlag){
