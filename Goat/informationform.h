@@ -41,6 +41,7 @@ public slots:
     void setHouseId(QString inHouseId);
     QString getHouseId();
     void initSqlTable();
+    void updateSqlTable();
 //    void updateAllData();
 //    void updateGoatList();
 //    void updateHouseData();
@@ -61,7 +62,7 @@ private:
     QTimer *freshTimer;
 
     QSqlQueryModel *sqlQueryModel;
-    QSqlTableModel *sqlTableModel;
+    QSqlQueryModel *sqlQueryModel2;
     QSortFilterProxyModel *sortFilterProxyModel;
 
 //    QChart *chart;

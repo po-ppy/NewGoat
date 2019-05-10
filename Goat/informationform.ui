@@ -66,39 +66,6 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_4">
-           <property name="title">
-            <string>NH3浓度</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
-              <item>
-               <widget class="QLabel" name="anqiLabel">
-                <property name="text">
-                 <string>0</string>
-                </property>
-                <property name="alignment">
-                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>mg/m3</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
           <widget class="QGroupBox" name="groupBox_2">
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
@@ -132,6 +99,39 @@
                <widget class="QLabel" name="label_3">
                 <property name="text">
                  <string>%RH</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox_4">
+           <property name="title">
+            <string>NH3浓度</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_4">
+              <item>
+               <widget class="QLabel" name="anqiLabel">
+                <property name="text">
+                 <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>mg/m3</string>
                 </property>
                </widget>
               </item>
@@ -189,7 +189,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_9">
               <item>
-               <widget class="QLabel" name="wenduLabel_2">
+               <widget class="QLabel" name="guangzhaoLabel">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -222,7 +222,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_11">
               <item>
-               <widget class="QLabel" name="anqiLabel_2">
+               <widget class="QLabel" name="yanwuLabel">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -255,7 +255,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_10">
               <item>
-               <widget class="QLabel" name="shiduLabel_2">
+               <widget class="QLabel" name="pm25Label">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -288,7 +288,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_8">
               <item>
-               <widget class="QLabel" name="eryangLabel_2">
+               <widget class="QLabel" name="pm10Label">
                 <property name="text">
                  <string>0</string>
                 </property>
@@ -313,58 +313,6 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="text">
-            <string>奶山羊编号:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="goatIdLabel">
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Plain</enum>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
          <item>
           <widget class="QLabel" name="label_7">
            <property name="frameShape">
@@ -415,7 +363,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="datatijmeLabel">
+          <widget class="QLabel" name="datatimeLabel">
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>

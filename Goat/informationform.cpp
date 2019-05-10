@@ -6,9 +6,10 @@ InformationForm::InformationForm(QWidget *parent) :
     ui(new Ui::InformationForm)
 {
     ui->setupUi(this);
+
     freshTimer = new QTimer(this);
     sqlQueryModel = new QSqlQueryModel(this);
-    sqlTableModel = new QSqlTableModel(this,DB::instance().data()->getDb());
+    sqlQueryModel2 = new QSqlQueryModel(this);
     sortFilterProxyModel = new QSortFilterProxyModel(this);
     ui->tableView->resizeColumnsToContents();
     initSqlTable();
@@ -16,7 +17,7 @@ InformationForm::InformationForm(QWidget *parent) :
 
 //    connect(freshTimer,SIGNAL(timeout()),this,SLOT(updateAllData()));
 //    connect(freshTimer,SIGNAL(timeout()),this,SLOT(initSqlTable()));
-    freshTimer->start(1000);
+//    freshTimer->start(1000);
 }
 
 InformationForm::~InformationForm()
@@ -33,18 +34,87 @@ QString InformationForm::getHouseId(){
 }
 
 void InformationForm::initSqlTable(){
-    sqlTableModel->setTable("houseData");
-
-    sqlTableModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
-    sqlTableModel->setFilter(QString("houseId='%1'").arg(getHouseId()));
-//    qDebug() << QString("houseId='%1'").arg(getHouseId());
-    sqlTableModel->setSort(0,Qt::DescendingOrder);
-    sqlTableModel->select();
-    for(int i=0;i<sqlTableModel->rowCount();i++){
-        sqlTableModel->setData(sqlTableModel->index(i,0),QDateTime::fromMSecsSinceEpoch(sqlTableModel->index(i,0).data().toLongLong()));
+    QSqlQuery query;
+//    if(!query.isActive()){
+//        return;
+//    }
+    query.prepare("select deviceId from houseBindingInfo where houseId = :houseId;");
+    query.bindValue(":houseId",houseId);
+    query.exec();
+    if(query.next()){
+        ui->deviceIdLabel->setText(query.value(0).toString());
     }
-    ui->tableView_2->setModel(sqlTableModel);
-    qDebug() << sqlTableModel->lastError().text();
+    query.prepare("select houseId as 舍号, wendu as 温度, anqi as 氨气, shidu as 湿度, eryang as 二氧化碳, guangzhao as 光照, pm25 as 'PM2.5', pm10 as PM10, yanwu as 烟雾,from_unixtime(left(datatimem,10),'%Y-%m-%d %H:%i:%S') as 记录时间  from houseData where houseId = :houseId order by datatimem DESC limit 20;");
+    query.bindValue(":houseId",houseId);
+    query.exec();
+    if(query.next()){
+        ui->wenduLabel->setText(query.value(1).toString());
+        ui->anqiLabel->setText(query.value(2).toString());
+        ui->shiduLabel->setText(query.value(3).toString());
+        ui->eryangLabel->setText(query.value(4).toString());
+        ui->guangzhaoLabel->setText(query.value(5).toString());
+        ui->pm25Label->setText(query.value(6).toString());
+        ui->pm10Label->setText(query.value(7).toString());
+        ui->yanwuLabel->setText(query.value(8).toString());
+        ui->datatimeLabel->setText(query.value(9).toString());
+    }
+    sqlQueryModel2->setQuery(query);
+    ui->tableView_2->setModel(sqlQueryModel2);
+
+    ui->tableView_2->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    int tempCount = ui->tableView_2->horizontalHeader()->count() - 1 ;
+    for(int i = 0; i < tempCount;i++){
+        ui->tableView_2->horizontalHeader()->setSectionResizeMode(i,QHeaderView::ResizeToContents);
+    }
+    ui->tableView_2->horizontalHeader()->setSectionResizeMode(tempCount,QHeaderView::Stretch);
+
+    QObject::connect(freshTimer,SIGNAL(timeout()),this,SLOT(updateSqlTable()));
+    freshTimer->start(1000);
+//    qDebug() << sqlTableModel->lastError().text();
+}
+
+void InformationForm::updateSqlTable(){
+    if(!DB::instance().data()->getDb().isOpen()){
+        QObject::disconnect(freshTimer,SIGNAL(timeout()),this,SLOT(updateSqlTable()));
+//        qDebug() << "updateSqlTable db is not open";
+        freshTimer->stop();
+        return;
+    }
+    QSqlQuery query;
+//    if(!query.isValid()){
+//        freshTimer->stop();
+//        qDebug() << "query is not active!!";
+//        return;
+//    }
+    query.prepare("select deviceId from houseBindingInfo where houseId = :houseId;");
+    query.bindValue(":houseId",houseId);
+    query.exec();
+    if(query.next()){
+        ui->deviceIdLabel->setText(query.value(0).toString());
+    }
+    query.prepare("select houseId as 舍号, wendu as 温度, anqi as 氨气, shidu as 湿度, eryang as 二氧化碳, guangzhao as 光照, pm25 as 'PM2.5', pm10 as PM10, yanwu as 烟雾,from_unixtime(left(datatimem,10),'%Y-%m-%d %H:%i:%S') as 记录时间  from houseData where houseId = :houseId order by datatimem DESC limit 20;");
+    query.bindValue(":houseId",houseId);
+    query.exec();
+    if(query.next()){
+        ui->wenduLabel->setText(query.value(1).toString());
+        ui->anqiLabel->setText(query.value(2).toString());
+        ui->shiduLabel->setText(query.value(3).toString());
+        ui->eryangLabel->setText(query.value(4).toString());
+        ui->guangzhaoLabel->setText(query.value(5).toString());
+        ui->pm25Label->setText(query.value(6).toString());
+        ui->pm10Label->setText(query.value(7).toString());
+        ui->yanwuLabel->setText(query.value(8).toString());
+        ui->datatimeLabel->setText(query.value(9).toString());
+    }
+    sqlQueryModel2->setQuery(query);
+    ui->tableView_2->setModel(sqlQueryModel2);
+
+    ui->tableView_2->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    int tempCount = ui->tableView_2->horizontalHeader()->count() - 1 ;
+    for(int i = 0; i < tempCount;i++){
+        ui->tableView_2->horizontalHeader()->setSectionResizeMode(i,QHeaderView::ResizeToContents);
+    }
+    ui->tableView_2->horizontalHeader()->setSectionResizeMode(tempCount,QHeaderView::Stretch);
 }
 //void InformationForm::createChart(){
 //    chart = new QChart();
