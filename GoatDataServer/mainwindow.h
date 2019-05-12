@@ -12,6 +12,8 @@
 #include <QList>
 #include <QFile>
 #include <QNetworkProxy>
+#include <QtConcurrent>
+#include <QTimer>
 
 namespace Ui {
 class MainWindow;
@@ -36,6 +38,11 @@ public slots:
     void messageShow(QString msg ,QString color);
     void acceptConnect();
     void initSQL();
+    void checkConnect();
+//    void dataProcessing();
+//    void dataPro(QList<QByteArray> todoList,QSqlDatabase &inDB);
+//    void eventPro(QList<QByteArray> todoList,QSqlDatabase &inDB);
+//    void sportPro(QList<QByteArray> todoList,QSqlDatabase &inDB);
 signals:
     void startSignal(QString);
     void stopSignal();
@@ -58,6 +65,7 @@ private:
     QList<QTcpSocket *> *clientList;
     QList<WorkThread *> *threadList;
     QThread wthread;
+    QTimer checkTimer;
 };
 
 #endif // MAINWINDOW_H

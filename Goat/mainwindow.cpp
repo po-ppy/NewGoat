@@ -38,10 +38,13 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action_feed,SIGNAL(triggered(bool)),this,SLOT(change_to_info_feed()));
     connect(ui->action_vacine,SIGNAL(triggered(bool)),this,SLOT(change_to_info_vacine()));
     connect(ui->action_product,SIGNAL(triggered(bool)),this,SLOT(change_to_info_product()));
+    connect(ui->action_eventinfo,SIGNAL(triggered(bool)),this,SLOT(change_to_info_event()));
 
     connect(ui->action_feeding,SIGNAL(triggered(bool)),this,SLOT(change_to_data_feeding()));
     connect(ui->action_antiepidemic,SIGNAL(triggered(bool)),this,SLOT(change_to_data_antiepidemic()));
     connect(ui->action_yield,SIGNAL(triggered(bool)),this,SLOT(change_to_data_yield()));
+    connect(ui->action_eventdata,SIGNAL(triggered(bool)),this,SLOT(change_to_data_event()));
+
     connect(ui->action,SIGNAL(triggered(bool)),bdDialog,SLOT(show()));
     connect(ui->action_houseBinding,SIGNAL(triggered(bool)),houseBindingDialog,SLOT(show()));
 
@@ -108,6 +111,12 @@ void MainWindow::change_to_info_product(){
     change_to_other_info_form();
 }
 
+void MainWindow::change_to_info_event(){
+    otherInfoForm->setInfoType(3);
+    otherInfoForm->autoUpdateTableView();
+    change_to_other_info_form();
+}
+
 void MainWindow::change_to_data_feeding(){
     otherDataForm->setDataType(0);
     otherDataForm->autoUpdateTableView();
@@ -122,6 +131,12 @@ void MainWindow::change_to_data_antiepidemic(){
 
 void MainWindow::change_to_data_yield(){
     otherDataForm->setDataType(2);
+    otherDataForm->autoUpdateTableView();
+    change_to_other_data_form();
+}
+
+void MainWindow::change_to_data_event(){
+    otherDataForm->setDataType(3);
     otherDataForm->autoUpdateTableView();
     change_to_other_data_form();
 }

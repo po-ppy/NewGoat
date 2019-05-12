@@ -30,6 +30,7 @@ public slots:
     //void acceptConnect();
     void setDB(QSqlDatabase &inDB);
     bool setClient(QTcpSocket *inClient);
+    bool clientIsOpen();
     void testData(QList<QByteArray> todoList,QSqlDatabase &inDB);
     void dataPro(QList<QByteArray> todoList,QSqlDatabase &inDB);
     void eventPro(QList<QByteArray> todoList,QSqlDatabase &inDB);

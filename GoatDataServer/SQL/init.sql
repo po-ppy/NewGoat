@@ -46,10 +46,10 @@ create table productInfo(productId varchar(40) primary key, productName varchar(
 create table yieldData(id int primary key auto_increment,goatId varchar(40) not null,productId varchar(40) not null,yield varchar(40) not null,outTime datetime, yieldRemark varchar(200));
 
 # 事件信息表
-create table eventInfo(id int primary key auto_increment,eventId varchar(20) not null,eventMeaning varchar(200) not null);
+create table eventInfo(eventId varchar(20) primary key, eventMeaning varchar(200) not null);
 
 # 事件记录表
-create table eventData(id int primary key auto_increment,routerId varchar(40) not null,datatimem varchar(20) not null,eventId varchar(20) not null,deviceId varchar(40) not null);
+create table eventData(id int primary key auto_increment,routerId varchar(40) not null,datatimem varchar(20) not null,eventId varchar(20) not null,deviceId varchar(40) not null, eventState enum('未处理','已处理'));
 # 外键约束
 alter table goatInfo add constraint fk_houseId foreign key(houseId) references houseInfo(houseId) on delete cascade on update cascade;
 
@@ -200,15 +200,19 @@ begin
   if(@tempHouseId is not null) then
     set NEW.houseId = @tempHouseId;
   end if;
- 
-	
+end||
+
+create trigger bf_insert_eventData before insert
+on eventData for each row
+begin
+    set NEW.eventState = '未处理';
 end||
 
 delimiter ;
 alter table sportData add index(datatimem);
 #alter table houseData add index(datatimem);
 create view tempsportDataView as select a.id,a.goatId,a.datatimem,a.sportx,a.sporty,a.sportz,a.status,b.houseId from sportData a left join goatInfo b on a.goatId = b.goatId where a.datatimem in (select distinct max(datatimem) from sportData);
-create view houseDataView as select * from houseData where datatimem in (select max(datatimem) from houseData);
+#create view houseDataView as select * from houseData where datatimem in (select max(datatimem) from houseData);
 create view maxDatatimemView as select goatId,max(datatimem) as datatimem from tempsportDataView group by goatId;
 create view sportDataView as select a.goatId,a.datatimem,b.sportx,b.sporty,b.sportz,b.status,b.houseId from maxDatatimemView a left join tempsportDataView b on a.goatId = b.goatId and a.datatimem = b.datatimem;
 

@@ -23,6 +23,7 @@ void WorkThread::run(){
 void WorkThread::startThread(){
     runFlag = true;
     connect(client,SIGNAL(readyRead()),this,SLOT(dataProcessing3()));
+//    connect(client,SIGNAL(disconnected()),this,SLOT(stopThread()));
     this->start();
 }
 
@@ -48,11 +49,11 @@ void WorkThread::dataProcessing(){
         tempDataList.removeAll(" ");
         tempDataList.removeAll("");
         int allLength = tempDataList.length();
-        qDebug() << allLength;
+        qDebug() << "alllength: " << allLength;
         int len = 0;
-        while(len+5 < allLength){
+        while(len+20 < allLength){
             DataPorcessingThread tempThread(tempDataList.mid(len,5));
-            len += 5;
+            len += 20;
             tempThread.setObjectName(QString::number(len));
             tempThread.setDB(this->db);
             tempThread.moveToThread(&wthread);
@@ -202,16 +203,23 @@ void WorkThread::dataProcessing3(){
      tempDataList.removeAll(" ");
      tempDataList.removeAll("");
      int allLength = tempDataList.length();
-     qDebug() << allLength;
-     int len = 0;
-     while(len+5 < allLength){
+     qDebug() << "allLength: " << allLength;
+     if(allLength < 1){
+         return;
+     }
+//     int len = 0;
+//     while(len+100 < allLength){
 
 //         QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len,5),QSqlDatabase::cloneDatabase(this->db,QString::number(QDateTime::currentMSecsSinceEpoch()+tempTime.elapsed())));
-         QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len,5),this->db);
-         msleep(5);
-     }
+////         QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len,5),this->db);
+//         len += 100;
+//         msleep(5);
+//     }
+//     msleep(5);
 //     QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len),QSqlDatabase::cloneDatabase(this->db,QString::number(QDateTime::currentMSecsSinceEpoch()+tempTime.elapsed())));
-     QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len),this->db);
+////     QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len),this->db);
+     QtConcurrent::run(this,&WorkThread::testData,tempDataList,this->db);
+//        QtConcurrent::run(this,&WorkThread::testData,tempDataList,QSqlDatabase::cloneDatabase(this->db,QString::number(QDateTime::currentMSecsSinceEpoch()+tempTime.elapsed())));
 }
 
 void WorkThread::setDB(QSqlDatabase &inDB){
@@ -226,6 +234,11 @@ bool WorkThread::setClient(QTcpSocket *inClient){
     return false;
 }
 
+bool WorkThread::clientIsOpen(){
+    //return this->client->isOpen();
+    return this->client->isValid();
+}
+
 void WorkThread::dataPro(QList<QByteArray> todoList,QSqlDatabase &inDB){
     qDebug() << "this is in dataPro();";
     todoList.removeAll("");
@@ -235,29 +248,29 @@ void WorkThread::dataPro(QList<QByteArray> todoList,QSqlDatabase &inDB){
         return;
     }
 
-    if(inDB.open()){
-        inDB.transaction();
-    }else{
-        qDebug() << "in dataPro(),--> db not open!";
-        return;
-    }
+//    if(inDB.open()){
+//        inDB.transaction();
+//    }else{
+//        qDebug() << "in dataPro(),--> db not open!";
+//        return;
+//    }
     QSqlQuery query(inDB);
     query.prepare("insert into houseData(houseId,datatimem,wendu,shidu,eryang,anqi,guangzhao,pm25,pm10,yanwu) values(:temp1,:temp2,:temp7,:temp8,:temp6,:temp5,:temp9,:temp3,:temp4,:temp10);");
     for(int i = 1;i < 11; i++){
         query.bindValue(":temp"+QString::number(i),todoList.at(i));
     }
     if(!query.exec()){
-        qDebug() << "insert error!";
+        qDebug() << "dataPro() insert error!";
         QSqlError err;
         err= query.lastError();
         qDebug() << err.text();
 
 
     }
-    if(!inDB.commit()){
-        qDebug() << "faill to commit!!";
-        inDB.rollback();
-    }
+//    if(!inDB.commit()){
+//        qDebug() << "faill to commit!!";
+//        inDB.rollback();
+//    }
 //    inDB.close();
 }
 
@@ -275,29 +288,29 @@ void WorkThread::eventPro(QList<QByteArray> todoList,QSqlDatabase &inDB){
         return;
     }
 
-    if(inDB.open()){
-        inDB.transaction();
-    }else{
-        qDebug() << "in dataPro(),--> db not open!";
-        return;
-    }
+//    if(inDB.open()){
+//        inDB.transaction();
+//    }else{
+//        qDebug() << "in dataPro(),--> db not open!";
+//        return;
+//    }
     QSqlQuery query(inDB);
     query.prepare("insert into eventData(routerId,datatimem,eventId,deviceId) values(:temp1,:temp2,:temp3,:temp4);");
     for(int i = 1;i < 5; i++){
         query.bindValue(":temp"+QString::number(i),todoList.at(i));
     }
     if(!query.exec()){
-        qDebug() << "insert error!";
+        qDebug() << "eventPro() insert error!";
         QSqlError err;
         err= query.lastError();
         qDebug() << err.text();
 
 
     }
-    if(!inDB.commit()){
-        qDebug() << "faill to commit!!";
-        inDB.rollback();
-    }
+//    if(!inDB.commit()){
+//        qDebug() << "faill to commit!!";
+//        inDB.rollback();
+//    }
 //    inDB.close();
 
 }
@@ -307,6 +320,22 @@ void WorkThread::testData(QList<QByteArray> todoList,QSqlDatabase &inDB){
     time.start();
     qDebug() << QThread::currentThreadId() << " start";
     //qDebug() << QThread::currentThread()->objectName() << "  start";
+//    if(inDB.open()){
+//        inDB.transaction();
+//    }else{
+//        qDebug()<< "open transaction error: " << inDB.lastError().text();
+//    }
+
+    if(!inDB.isOpen()){
+        if(!inDB.open()){
+            qDebug() << "testData open inDB error!!";
+            return;
+        }
+    }
+    if(!inDB.transaction()){
+        qDebug()<< "open transaction error: " << inDB.lastError().text();
+    }
+
 
     foreach (QByteArray temp, todoList) {
         if(temp.startsWith('D')){
@@ -320,7 +349,12 @@ void WorkThread::testData(QList<QByteArray> todoList,QSqlDatabase &inDB){
             sportPro(temp.split('#'),inDB);
         }
     }
-    inDB.close();
+    if(!inDB.commit()){
+        qDebug() << "commit error: " << inDB.lastError().text();
+        inDB.rollback();
+
+    }
+//    inDB.close();
     qDebug() << QThread::currentThreadId() << time.elapsed()/1000.0 << "s stop";
 }
 

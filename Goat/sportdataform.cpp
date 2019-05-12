@@ -80,3 +80,9 @@ void SportDataForm::delete_tab(){
 //    menu->move(cursor().pos());
 //    menu->show();
 //}
+
+void SportDataForm::on_tabWidget_currentChanged(int index)
+{
+    InformationForm* temp = (InformationForm *)ui->tabWidget->widget(index);
+    temp->updateSqlTable();
+}

@@ -17,6 +17,7 @@
 #include <QFileDialog>
 #include <QSqlError>
 #include <QMap>
+#include <QIcon>
 #include <adddatadialog.h>
 
 namespace Ui {

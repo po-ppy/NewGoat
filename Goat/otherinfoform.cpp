@@ -13,6 +13,7 @@ OtherInfoForm::OtherInfoForm(QWidget *parent) :
     feedHeadList = QList<QString>();
     vacineHeadList = QList<QString>();
     productHeadList = QList<QString>();
+    eventHeadList = QList<QString>();
 
     initMenu();
 
@@ -21,11 +22,12 @@ OtherInfoForm::OtherInfoForm(QWidget *parent) :
     feedHeadList << tr("饲料编号") << tr("饲料名称") << tr("适用范围") << tr("用法用量") << tr("备注");
     vacineHeadList << tr("疫苗编号") << tr("疫苗名称") << tr("疫苗种类") << tr("免疫时间") << tr("免疫剂量") << tr("注射部位") << tr("备注");
     productHeadList << tr("产品编号") << tr("产品名称") << tr("备注");
+    eventHeadList << tr("事件编号") << tr("事件含义");
 //    QObject::connect(sqlTableModel,SIGNAL(beforeUpdate(int row,QSqlRecord &record)),this,SLOT(updateData(int row, QSqlRecord &record)));
 
 
 
-    preInfoType = 0;
+    preInfoType = 6;
     infoType = 0;
 
 }
@@ -66,6 +68,14 @@ void OtherInfoForm::updateTableView(){
         sqlTableModel->select();
         for(int i = 0; i < productHeadList.size(); i++){
             sqlTableModel->setHeaderData(i,Qt::Horizontal,productHeadList.at(i));
+        }
+        break;
+    case 3 :
+        sqlTableModel->setTable("eventInfo");
+        sqlTableModel->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        sqlTableModel->select();
+        for(int i = 0; i < eventHeadList.size(); i++){
+            sqlTableModel->setHeaderData(i,Qt::Horizontal,eventHeadList.at(i));
         }
         break;
     }
@@ -128,6 +138,9 @@ bool OtherInfoForm::setInfoType(int temp){
         break;
     case 2 :
         ui->titleLabel->setText("产品信息");
+        break;
+    case 3 :
+        ui->titleLabel->setText("事件信息");
         break;
     default:
         infoType = 0;
@@ -240,8 +253,16 @@ QString OtherInfoForm::createId(){
         firstWord = "P";
         SQL_select = "select productId from productInfo where productId = :newId ;";
         break;
+    case 3 :
+        firstWord = "";
+        SQL_select = "select eventId from eventInfo where eventId = :newId ;";
+        break;
     }
-    int startNum = 1000 + rowNum;
+    int startNum = rowNum;
+    if(infoType != 3){
+        startNum += 1000;
+    }
+//    int startNum = 1000 + rowNum;
     QString newId;
     QSqlQuery query;
     query.prepare(SQL_select);

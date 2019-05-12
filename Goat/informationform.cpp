@@ -69,7 +69,7 @@ void InformationForm::initSqlTable(){
     ui->tableView_2->horizontalHeader()->setSectionResizeMode(tempCount,QHeaderView::Stretch);
 
     QObject::connect(freshTimer,SIGNAL(timeout()),this,SLOT(updateSqlTable()));
-    freshTimer->start(1000);
+    freshTimer->start(10000);
 //    qDebug() << sqlTableModel->lastError().text();
 }
 
@@ -78,6 +78,9 @@ void InformationForm::updateSqlTable(){
         QObject::disconnect(freshTimer,SIGNAL(timeout()),this,SLOT(updateSqlTable()));
 //        qDebug() << "updateSqlTable db is not open";
         freshTimer->stop();
+        return;
+    }
+    if(!this->isVisible()){
         return;
     }
     QSqlQuery query;

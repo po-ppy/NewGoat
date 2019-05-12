@@ -31,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->initAction,SIGNAL(triggered(bool)),this,SLOT(initSQL()));
     connect(server,SIGNAL(newConnection()),this,SLOT(acceptConnect()));
 
+    connect(&checkTimer,SIGNAL(timeout()),this,SLOT(checkConnect()));
+
+    checkTimer.start(10000);
+
 
 }
 
@@ -171,6 +175,23 @@ void MainWindow::acceptConnect(){
     }
 
 }
+
+void MainWindow::checkConnect(){
+    foreach (WorkThread* temp, *threadList) {
+        if(!temp->clientIsOpen()){
+            temp->stopThread();
+            threadList->removeOne(temp);
+        }
+    }
+    qDebug() << "current thread number: " << threadList->size();
+    foreach(QTcpSocket* temp, *clientList){
+        if(!temp->isValid()){
+            clientList->removeOne(temp);
+        }
+    }
+    qDebug() << "current client number: " << clientList->size();
+}
+
 
 void MainWindow::initSQL(){
     //stopServer();

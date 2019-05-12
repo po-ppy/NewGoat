@@ -65,6 +65,7 @@ private:
     QList<QString> feedHeadList;
     QList<QString> vacineHeadList;
     QList<QString> productHeadList;
+    QList<QString> eventHeadList;
 
     QSqlQueryModel *sqlQueryModel;
     QSqlTableModel *sqlTableModel;

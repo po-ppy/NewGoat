@@ -35,6 +35,8 @@ private slots:
     void delete_tab(int index);
 //    void contextMenuEvent(QContextMenuEvent *event);
 //    void delete_current_index();
+    void on_tabWidget_currentChanged(int index);
+
 private:
     Ui::SportDataForm *ui;
     //QThread *wkThread;

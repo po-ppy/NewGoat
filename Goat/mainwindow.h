@@ -38,9 +38,11 @@ private slots:
     void change_to_info_feed();
     void change_to_info_vacine();
     void change_to_info_product();
+    void change_to_info_event();
     void change_to_data_feeding();
     void change_to_data_antiepidemic();
     void change_to_data_yield();
+    void change_to_data_event();
 private:
     Ui::MainWindow *ui;
     SportDataForm *sportDataForm;

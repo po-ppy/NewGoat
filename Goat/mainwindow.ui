@@ -72,11 +72,19 @@
      <addaction name="action_yield"/>
      <addaction name="action_product"/>
     </widget>
+    <widget class="QMenu" name="menu_4">
+     <property name="title">
+      <string>事件信息</string>
+     </property>
+     <addaction name="action_eventdata"/>
+     <addaction name="action_eventinfo"/>
+    </widget>
     <addaction name="actionD"/>
     <addaction name="action_Device_Query"/>
     <addaction name="menu"/>
     <addaction name="menu_2"/>
     <addaction name="menu_3"/>
+    <addaction name="menu_4"/>
    </widget>
    <widget class="QMenu" name="menu_S">
     <property name="title">
@@ -191,6 +199,16 @@
   <action name="action_houseBinding">
    <property name="text">
     <string>羊舍绑定设置</string>
+   </property>
+  </action>
+  <action name="action_eventdata">
+   <property name="text">
+    <string>事件记录</string>
+   </property>
+  </action>
+  <action name="action_eventinfo">
+   <property name="text">
+    <string>事件信息</string>
    </property>
   </action>
  </widget>
