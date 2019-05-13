@@ -65,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionHelp,SIGNAL(triggered(bool)),helpDialog,SLOT(show()));
     setWindowIcon(QIcon(":/nu.ico"));
 
+    connect(otherDataForm,SIGNAL(shouldShowUntreatedEvent()),this,SLOT(showTheEvent()));
+
 
 }
 
@@ -157,6 +159,7 @@ void MainWindow::loginOK(){
     updateAllTables();
     otherInfoForm->autoUpdateTableView();
     otherDataForm->autoUpdateTableView();
+    otherDataForm->initCheckEvent();
 
 }
 
@@ -164,9 +167,15 @@ void MainWindow::doLogout(){
     DB::instance().data()->getDb().close();
     ui->actionLogin->setText("登录");
     ui->actionLogin->setEnabled(true);
+    otherDataForm->stopCheckEvent();
 }
 
 void MainWindow::doExit(){
     doLogout();
     this->close();
+}
+
+void MainWindow::showTheEvent(){
+    change_to_data_event();
+    otherDataForm->showUntreatedEvent();
 }

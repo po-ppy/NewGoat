@@ -49,7 +49,7 @@ create table yieldData(id int primary key auto_increment,goatId varchar(40) not 
 create table eventInfo(eventId varchar(20) primary key, eventMeaning varchar(200) not null);
 
 # 事件记录表
-create table eventData(id int primary key auto_increment,routerId varchar(40) not null,datatimem varchar(20) not null,eventId varchar(20) not null,deviceId varchar(40) not null, eventState enum('未处理','已处理'));
+create table eventData(id int primary key auto_increment,routerId varchar(40) not null,datatimem varchar(20) not null,eventId varchar(20) not null,deviceId varchar(40) not null, eventState enum('未处理','已处理','已知晓'));
 # 外键约束
 alter table goatInfo add constraint fk_houseId foreign key(houseId) references houseInfo(houseId) on delete cascade on update cascade;
 
@@ -150,6 +150,7 @@ on houseBindingInfo for each row
 begin
   update houseDeviceInfo set deviceState = '闲置' where deviceId = OLD.deviceId;
   update houseDeviceInfo set deviceState = '已绑定' where deviceId = NEW.deviceId;
+  #update eventData set routerId = NEW.houseId where deviceId = NEW.deviceId;
 end||
 
 #create trigger af_device_update after update
@@ -205,7 +206,11 @@ end||
 create trigger bf_insert_eventData before insert
 on eventData for each row
 begin
-    set NEW.eventState = '未处理';
+    if New.eventId = '0' then
+        set New.eventState = '已处理';
+    else
+        set NEW.eventState = '未处理';
+    end if;
 end||
 
 delimiter ;

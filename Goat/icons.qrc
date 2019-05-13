@@ -11,5 +11,7 @@
         <file>plus.png</file>
         <file>minus.png</file>
         <file>duigou.png</file>
+        <file>huozaijingbaosheng.mp3</file>
+        <file>menling.mp3</file>
     </qresource>
 </RCC>

@@ -19,6 +19,7 @@
 #include <QMap>
 #include <QIcon>
 #include <adddatadialog.h>
+#include <QTimer>
 
 namespace Ui {
 class OtherDataForm;
@@ -52,7 +53,8 @@ private slots:
     void on_removeButton_clicked();
 
     void on_tableView_customContextMenuRequested(const QPoint &pos);
-
+signals:
+    void shouldShowUntreatedEvent();
 public slots:
     void updateTableView();
     void autoUpdateTableView();
@@ -60,6 +62,11 @@ public slots:
     void keyWordSearch();
     void addOne();
     void deleteSelected();
+    void showUntreatedEvent();
+    int hasUntreatedEvent();
+    void initCheckEvent();
+    void stopCheckEvent();
+    void showAlert();
     void initMenu();
 
 private:
@@ -70,6 +77,8 @@ private:
     int preDataType;
     QMap<QString,QString> keyWordMap;
     AddDataDialog *addDataDialog;
+    QTimer eventCheckTimer;
+//    QMediaPlayer *player;
 
     QMenu *cmenu;
     QAction *actionAdd;

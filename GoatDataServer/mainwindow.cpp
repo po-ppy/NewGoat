@@ -185,6 +185,10 @@ void MainWindow::checkConnect(){
     }
     qDebug() << "current thread number: " << threadList->size();
     foreach(QTcpSocket* temp, *clientList){
+//        qint64 writeNum = temp->write("1234");
+//        if(writeNum < 1){
+//            temp->close();
+//        }
         if(!temp->isValid()){
             clientList->removeOne(temp);
         }

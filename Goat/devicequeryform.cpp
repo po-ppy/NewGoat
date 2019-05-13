@@ -197,8 +197,8 @@ void DeviceQueryForm::errorSelected(){
     //query.prepare("delete from bindingInfo where goatId = :goatId;");
 
     foreach (int temp, list) {
-        delQuery.bindValue(":deviceId",ui->tableView->model()->index(temp,0).data());
-        query.bindValue(":deviceId",ui->tableView->model()->index(temp,0).data());
+        delQuery.bindValue(":deviceId",ui->tableView->model()->index(temp,0).data().toString());
+        query.bindValue(":deviceId",ui->tableView->model()->index(temp,0).data().toString());
         delQuery.exec();
         query.exec();
         //qDebug() << ui->tableView->model()->index(temp,0).data().toString();

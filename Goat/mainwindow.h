@@ -29,6 +29,7 @@ public slots:
     void loginOK();
     void doLogout();
     void doExit();
+    void showTheEvent();
 private slots:
     void change_to_goat_query_form();
     void change_to_sport_data_form();

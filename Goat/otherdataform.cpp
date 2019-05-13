@@ -47,6 +47,8 @@ OtherDataForm::OtherDataForm(QWidget *parent) :
     ui->endTimeCheckBox->hide();
     ui->endTimeDateTimeEdit->hide();
 
+//    player = new QMediaPlayer(this);
+
 
 }
 
@@ -113,7 +115,7 @@ void OtherDataForm::updateTableView(){
                 SQL_keyword = "select a.id as ID, a.goatId as 奶山羊编号, c.houseId as 舍号, b.productName as 产品名称, a.yield as 产量, a.outTime as 产出时间, a.yieldRemark as 产量备注 from yieldData a join productInfo b join goatInfo c on a.productId = b.productId and a.goatId = c.goatId where :thekey like :theword;";
                 break;
             case 3 :
-                SQL_keyword = "select a.id as ID,a.eventState as 处理状况, a.routerId as '舍号/路由编号', a.eventId as 事件编号, b.eventMeaning as 事件含义, a.datatimem as 记录时间, a.deviceId as 发出设备 from eventData a join eventInfo b on a.eventId = b.eventId where :thekey like :theword;";
+                SQL_keyword = "select a.id as ID,a.eventState as 处理状况, a.routerId as '舍号/路由编号', a.eventId as 事件编号, b.eventMeaning as 事件含义,from_unixtime(left(a.datatimem,10),'%Y-%m-%d %H:%i:%S') as 记录时间, a.deviceId as 发出设备 from eventData a join eventInfo b on a.eventId = b.eventId where :thekey like :theword;";
                 break;
             default:
                 dataType = 0;
@@ -144,7 +146,7 @@ void OtherDataForm::updateTableView(){
                 query.exec("select a.id as ID, a.goatId as 奶山羊编号, c.houseId as 舍号, b.productName as 产品名称, a.yield as 产量, a.outTime as 产出时间, a.yieldRemark as 备注 from yieldData a join productInfo b join goatInfo c on a.productId = b.productId and a.goatId = c.goatId;");
                 break;
             case 3 :
-                query.exec("select a.id as ID,a.eventState as 处理状况, a.routerId as '舍号/路由编号', a.eventId as 事件编号, b.eventMeaning as 事件含义, a.datatimem as 记录时间, a.deviceId as 发出设备 from eventData a join eventInfo b on a.eventId = b.eventId;");
+                query.exec("select a.id as ID,a.eventState as 处理状况, a.routerId as '舍号/路由编号', a.eventId as 事件编号, b.eventMeaning as 事件含义, from_unixtime(left(a.datatimem,10),'%Y-%m-%d %H:%i:%S') as 记录时间, a.deviceId as 发出设备 from eventData a join eventInfo b on a.eventId = b.eventId;");
                 break;
             default:
                 dataType = 0;
@@ -165,6 +167,81 @@ void OtherDataForm::updateTableView(){
         for(int i = 0; i < tempCount;i++){
             ui->tableView->horizontalHeader()->setSectionResizeMode(i,QHeaderView::ResizeToContents);
         }
+}
+
+void OtherDataForm::showUntreatedEvent(){
+    if(dataType != 3){
+        this->dataType = 3;
+        this->preDataType = 3;
+        updateTableView();
+    }
+    ui->tableView->horizontalHeader()->setSortIndicator(0,Qt::DescendingOrder);
+    ui->tableView->horizontalHeader()->setSortIndicator(1,Qt::DescendingOrder);
+}
+
+int OtherDataForm::hasUntreatedEvent(){
+    QSqlQuery query;
+    if(query.exec("select count(*) from eventData where eventState = '未处理';")){
+        if(query.next()){
+            return query.value(0).toInt();
+        }
+    }
+    return -1;
+
+}
+
+void OtherDataForm::initCheckEvent(){
+    int untreatedEventNum = hasUntreatedEvent();
+    if(untreatedEventNum < 0){
+        qDebug() << "hasUntreatedEvent() has error, the number is " << untreatedEventNum;
+    }else if(untreatedEventNum > 0){
+        int backInfo = QMessageBox::question(this,"信息提醒",QString("您有%1个事件仍未处理，是否查看?").arg(untreatedEventNum),QMessageBox::Ok,QMessageBox::Cancel);
+        if(backInfo == QMessageBox::Ok){
+            emit shouldShowUntreatedEvent();
+        }
+    }
+    connect(&eventCheckTimer,SIGNAL(timeout()),this,SLOT(showAlert()));
+    eventCheckTimer.start(10000);
+}
+
+void OtherDataForm::stopCheckEvent(){
+    eventCheckTimer.stop();
+    disconnect(&eventCheckTimer,SIGNAL(timeout()),this,SLOT(showAlert()));
+}
+
+void OtherDataForm::showAlert(){
+    if(hasUntreatedEvent() < 1){
+        return;
+    }
+
+    QSqlQuery query;
+    if(query.exec("select * from eventData a left join eventInfo b on a.eventId= b.eventId where eventState = '未处理' order by id DESC limit 1;")){
+        if(query.next()){
+            QString message = QString("舍号/路由节点:%1\n事件:%2\n发送传感器:%3").arg(query.value("routerId").toString()).arg(query.value("eventMeaning").toString()).arg(query.value("deviceId").toString());
+            int eventDataId = query.value("id").toInt();
+            int backInfo = QMessageBox::warning(this,"警报",message,QMessageBox::Ok);
+            if(backInfo == QMessageBox::Ok){
+                query.prepare("update eventData set eventState = '已知晓' where id = :id;");
+                query.bindValue(":id",eventDataId);
+                if(!query.exec()){
+//                    player->setMedia(QUrl::fromLocalFile("/home/poppy/Downloads/huozaijingbaosheng.mp3"));
+
+//                    player->setVolume(100);
+//                    player->play();
+//                    qDebug() <<  player->errorString();
+
+//                    QSoundEffect effect;
+//                    effect.setSource(QUrl::fromLocalFile("/home/poppy/Downloads/huozaijingbaosheng.mp3"));
+//                    effect.setLoopCount(2);
+//                    effect.setVolume(1.0f);
+//                    effect.play();
+                    QMessageBox::warning(this,"警报","管理软件连接数据库出错!!");
+                }else{
+                    updateTableView();
+                }
+            }
+        }
+    }
 }
 
 void OtherDataForm::autoUpdateTableView(){

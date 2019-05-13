@@ -42,7 +42,7 @@ void WorkThread::dataProcessing(){
     //if (runFlag && client->isReadable()) {
        // 数据处理
         //qDebug() << "inter!!";
-        QByteArray receiveInfo = client->readAll().trimmed().replace("\n","").replace('\x01',"");
+        QByteArray receiveInfo = client->readAll().trimmed().replace("\n","").replace('\x01',"").replace('\x00',"");
         //qDebug() << "is there nothing?";
         //qDebug() << receiveInfo;
         QList<QByteArray> tempDataList = receiveInfo.split('$');
