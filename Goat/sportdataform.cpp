@@ -22,14 +22,11 @@ void SportDataForm::updateTabs(){
     //MainForm* curTab = (MainForm*)ui->tabWidget->currentWidget();
     QString curTabLabel;
     bool memoryFlag = false;
+    int tabCount = 0;
     if(ui->tabWidget->count() > 0){
         memoryFlag = true;
         curTabLabel = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
-        for(int i = 0;i<ui->tabWidget->count();i++){
-            QWidget* temp = ui->tabWidget->widget(i);
-            ui->tabWidget->removeTab(i);
-            delete temp;
-        }
+        tabCount = ui->tabWidget->count();
 //        ui->tabWidget->clear();
     }
     QSqlQuery query;
@@ -44,6 +41,11 @@ void SportDataForm::updateTabs(){
         //wkThread->start();
         temp->initSqlTable();
         ui->tabWidget->addTab(temp,QIcon(":/she.png"),query.value(0).toString());
+    }
+    for(int i = 0;i<tabCount;i++){
+        QWidget* temp = ui->tabWidget->widget(0);
+        ui->tabWidget->removeTab(0);
+        delete temp;
     }
     if(memoryFlag){
         for(int i = 0; i < ui->tabWidget->count();i++){
