@@ -25,7 +25,12 @@ void SportDataForm::updateTabs(){
     if(ui->tabWidget->count() > 0){
         memoryFlag = true;
         curTabLabel = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
-        ui->tabWidget->clear();
+        for(int i = 0;i<ui->tabWidget->count();i++){
+            QWidget* temp = ui->tabWidget->widget(i);
+            ui->tabWidget->removeTab(i);
+            delete temp;
+        }
+//        ui->tabWidget->clear();
     }
     QSqlQuery query;
     query.exec("select * from houseInfo;");

@@ -150,7 +150,7 @@ on houseBindingInfo for each row
 begin
   update houseDeviceInfo set deviceState = '闲置' where deviceId = OLD.deviceId;
   update houseDeviceInfo set deviceState = '已绑定' where deviceId = NEW.deviceId;
-  #update eventData set routerId = NEW.houseId where deviceId = NEW.deviceId;
+  update eventData set routerId = NEW.houseId where deviceId = NEW.deviceId;
 end||
 
 #create trigger af_device_update after update

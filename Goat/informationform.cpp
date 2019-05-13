@@ -22,6 +22,7 @@ InformationForm::InformationForm(QWidget *parent) :
 
 InformationForm::~InformationForm()
 {
+    freshTimer->stop();
     delete ui;
 }
 
