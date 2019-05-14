@@ -189,7 +189,7 @@ void MainWindow::checkConnect(){
 //        if(writeNum < 1){
 //            temp->close();
 //        }
-        if(!temp->isValid()){
+        if(!temp->isOpen()){
             clientList->removeOne(temp);
         }
     }

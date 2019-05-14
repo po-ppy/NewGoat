@@ -90,9 +90,13 @@ insert into yieldData(goatId,productId,yield,outTime,yieldRemark) values('G10007
 insert into yieldData(goatId,productId,yield,outTime,yieldRemark) values('G10008','P0001','2升',now(),null);
 
 # 在羊舍设备信息表中添加数据
-insert into houseDeviceInfo(deviceId,deviceState,inTime) values('R0001','已绑定',now());
-insert into houseDeviceInfo(deviceId,deviceState,inTime) values('R0002','已绑定',now());
-insert into houseDeviceInfo(deviceId,deviceState,inTime) values('R0003','已绑定',now());
+# insert into houseDeviceInfo(deviceId,deviceState,inTime) values('R0001','已绑定',now());
+# insert into houseDeviceInfo(deviceId,deviceState,inTime) values('R0002','已绑定',now());
+# insert into houseDeviceInfo(deviceId,deviceState,inTime) values('R0003','已绑定',now());
+insert into houseDeviceInfo(deviceId) values('R0001');
+insert into houseDeviceInfo(deviceId) values('R0002');
+insert into houseDeviceInfo(deviceId) values('R0003');
+
 
 # 在羊舍设备绑定信息表中插入数据
 insert into houseBindingInfo(houseId,deviceId) values('舍1','R0001');

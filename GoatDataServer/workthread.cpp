@@ -31,6 +31,9 @@ void WorkThread::stopThread(){
     //qDebug() << "stop ???";
     runFlag = false;
     disconnect(client,SIGNAL(readyRead()),this,SLOT(dataProcessing3()));
+    if(this->client->isOpen()){
+        this->client->close();
+    }
     this->db.close();
     this->quit();
     this->wait();
@@ -236,7 +239,7 @@ bool WorkThread::setClient(QTcpSocket *inClient){
 
 bool WorkThread::clientIsOpen(){
     //return this->client->isOpen();
-    return this->client->isValid();
+    return (this->client->write("1234") > 0);
 }
 
 void WorkThread::dataPro(QList<QByteArray> todoList,QSqlDatabase &inDB){

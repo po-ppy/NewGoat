@@ -47,8 +47,9 @@ void SportDataForm::updateTabs(){
         ui->tabWidget->removeTab(0);
         delete temp;
     }
+    tabCount = ui->tabWidget->count();
     if(memoryFlag){
-        for(int i = 0; i < ui->tabWidget->count();i++){
+        for(int i = 0; i < tabCount;i++){
             if(curTabLabel == ui->tabWidget->tabText(i)){
                 ui->tabWidget->setCurrentIndex(i);
                 break;

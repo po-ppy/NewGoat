@@ -143,6 +143,8 @@ create trigger af_house_binding after insert
 on houseBindingInfo for each row
 begin
   update houseDeviceInfo set deviceState = '已绑定' where deviceId = NEW.deviceId;
+  update houseData set houseId = NEW.houseId where houseId = NEW.deviceId;
+  update eventData set routerId = NEW.houseId where routerId = NEW.deviceId;
 end||
 
 create trigger af_house_binding_update after update
@@ -150,7 +152,8 @@ on houseBindingInfo for each row
 begin
   update houseDeviceInfo set deviceState = '闲置' where deviceId = OLD.deviceId;
   update houseDeviceInfo set deviceState = '已绑定' where deviceId = NEW.deviceId;
-  update eventData set routerId = NEW.houseId where deviceId = NEW.deviceId;
+  update houseData set houseId = NEW.houseId where houseId = NEW.deviceId;
+  update eventData set routerId = NEW.houseId where routerId = NEW.deviceId;
 end||
 
 #create trigger af_device_update after update
@@ -172,6 +175,19 @@ on houseBindingInfo for each row
 begin
   update houseDeviceInfo set deviceState = '闲置' where deviceId = old.deviceId;
 end||
+
+create trigger bf_insert_houseDeviceInfo before insert
+on houseDeviceInfo for each row
+begin
+    if(NEW.inTime is null) then
+        set NEW.inTime = NOW();
+    end if;
+    if(NEW.deviceState is null) then
+        set NEW.deviceState = '闲置';
+    end if;
+end||
+
+
 ########################
 
 create trigger bf_insert_sportData before insert
@@ -197,7 +213,6 @@ create trigger bf_insert_housetData before insert
 on houseData for each row
 begin
   set @tempHouseId = (select houseId from houseBindingInfo where deviceId = NEW.houseId);
-  #set @tempHouseId = (select a.houseId  from goatInfo a left join bindingInfo b on a.goatId = b.goatId where b.deviceId = NEW.houseId);
   if(@tempHouseId is not null) then
     set NEW.houseId = @tempHouseId;
   end if;
@@ -206,10 +221,22 @@ end||
 create trigger bf_insert_eventData before insert
 on eventData for each row
 begin
+    set @tempDeviceId = (select deviceId from houseDeviceInfo where deviceId = NEW.routerId);
+    if(@tempDeviceId is null) then
+        insert into houseDeviceInfo(deviceId) values(NEW.routerId);
+    end if;
+    set @tempSensorId = (select deviceId from houseDeviceInfo where deviceId = NEW.deviceId);
+    if(@tempSensorId is null) then
+        insert into houseDeviceInfo(deviceId) values(NEW.deviceId);
+    end if;
     if New.eventId = '0' then
         set New.eventState = '已处理';
     else
         set NEW.eventState = '未处理';
+    end if;
+    set @tempHouseId = (select houseId from houseBindingInfo where deviceId = NEW.routerId);
+    if(@tempHouseId is not null) then
+        set NEW.routerId = @tempHouseId;
     end if;
 end||
 
