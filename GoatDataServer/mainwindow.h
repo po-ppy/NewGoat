@@ -14,7 +14,6 @@
 #include <QNetworkProxy>
 #include <QtConcurrent>
 #include <QTimer>
-#include <db.h>
 
 namespace Ui {
 class MainWindow;

@@ -24,17 +24,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-    db.cpp \
         main.cpp \
         mainwindow.cpp \
-    workthread.cpp \
-    dataporcessingthread.cpp
+    workthread.cpp
 
 HEADERS += \
-    db.h \
         mainwindow.h \
-    workthread.h \
-    dataporcessingthread.h
+    workthread.h
 
 FORMS += \
         mainwindow.ui

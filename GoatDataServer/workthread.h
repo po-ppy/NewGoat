@@ -9,7 +9,7 @@
 #include <QList>
 #include <QtConcurrent/QtConcurrent>
 #include <QFuture>
-#include <dataporcessingthread.h>
+
 
 class WorkThread : public QThread
 {
@@ -25,8 +25,6 @@ public slots:
     void startThread();
     void stopThread();
     void dataProcessing();
-    void dataProcessing2();
-    void dataProcessing3();
     //void acceptConnect();
     void setDB(QSqlDatabase &inDB);
     bool setClient(QTcpSocket *inClient);
