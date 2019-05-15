@@ -242,7 +242,7 @@ end||
 
 delimiter ;
 alter table sportData add index(datatimem);
-alter table houseDeviceInfo add index(devicId);
+alter table houseDeviceInfo add index(deviceId);
 alter table houseBindingInfo add index(houseId);
 alter table houseBindingInfo add index(deviceId);
 #alter table houseData add index(datatimem);
