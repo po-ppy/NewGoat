@@ -1,5 +1,6 @@
 set names utf8;
 use goatdb;
+start transaction;
 # 羊舍数据表中插入数据
 insert into houseInfo(houseId) values('舍1');
 insert into houseInfo(houseId) values('舍2');
@@ -109,3 +110,4 @@ insert into eventInfo(eventId,eventMeaning) values('1','紧急火警');
 insert into eventInfo(eventId,eventMeaning) values('2','传感器数据监测不到');
 insert into eventInfo(eventId,eventMeaning) values('3','数据异常');
 
+commit;

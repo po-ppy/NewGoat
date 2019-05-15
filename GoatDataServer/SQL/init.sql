@@ -242,6 +242,9 @@ end||
 
 delimiter ;
 alter table sportData add index(datatimem);
+alter table houseDeviceInfo add index(devicId);
+alter table houseBindingInfo add index(houseId);
+alter table houseBindingInfo add index(deviceId);
 #alter table houseData add index(datatimem);
 create view tempsportDataView as select a.id,a.goatId,a.datatimem,a.sportx,a.sporty,a.sportz,a.status,b.houseId from sportData a left join goatInfo b on a.goatId = b.goatId where a.datatimem in (select distinct max(datatimem) from sportData);
 #create view houseDataView as select * from houseData where datatimem in (select max(datatimem) from houseData);
