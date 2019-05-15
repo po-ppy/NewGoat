@@ -8,7 +8,7 @@ WorkThread::WorkThread()
 
 WorkThread::~WorkThread(){
     qDebug() << "gg??";
-    stopThread();
+//    stopThread();
     //quit();
     //wait();
 }
@@ -34,9 +34,11 @@ void WorkThread::stopThread(){
     if(this->client->isOpen()){
         this->client->close();
     }
-    this->db.close();
+//    if(this->db.isOpen()){
+//        this->db.close();
+//    }
     this->quit();
-    this->wait();
+//    this->wait();
 }
 
 void WorkThread::dataProcessing(){
@@ -199,7 +201,7 @@ void WorkThread::dataProcessing3(){
     tempTime.start();
     // 数据处理
      //qDebug() << "inter!!";
-     QByteArray receiveInfo = client->readAll().trimmed().replace("\n","").replace("\x01","");
+     QByteArray receiveInfo = client->readAll().trimmed().replace("\n","").replace("\x01","").replace("\x00","");
      //qDebug() << "is there nothing?";
      qDebug() << receiveInfo;
      QList<QByteArray> tempDataList = receiveInfo.split('*');
@@ -227,7 +229,12 @@ void WorkThread::dataProcessing3(){
 
 void WorkThread::setDB(QSqlDatabase &inDB){
     this->db = QSqlDatabase::cloneDatabase(inDB,QString::number(QDateTime::currentMSecsSinceEpoch()));
+//    inDB.close();
     this->db.open();
+//    this->db = inDB;
+//    if(!this->db.isOpen()){
+//        this->db.open();
+//    }
 }
 
 bool WorkThread::setClient(QTcpSocket *inClient){
@@ -357,7 +364,7 @@ void WorkThread::testData(QList<QByteArray> todoList,QSqlDatabase &inDB){
         inDB.rollback();
 
     }
-//    inDB.close();
+    inDB.close();
     qDebug() << QThread::currentThreadId() << time.elapsed()/1000.0 << "s stop";
 }
 

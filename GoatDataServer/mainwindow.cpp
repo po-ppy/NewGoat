@@ -74,10 +74,10 @@ void MainWindow::startServer(){
             messageShow("服务正在运行","green");
             runFlag = true;
             for(int i = 0;i < threadList->size();i++){
-                threadList->at(i)->setDB(db);
+//                threadList->at(i)->setDB(db);
                 threadList->at(i)->startThread();
-                threadList->at(i)->moveToThread(&wthread);
-                wthread.start();
+//                threadList->at(i)->moveToThread(&wthread);
+//                wthread.start();
             }
         }else{
             //监听服务未开启
@@ -163,15 +163,14 @@ void MainWindow::acceptConnect(){
     QTcpSocket *client = server->nextPendingConnection();
     clientList->append(client);
     WorkThread *tempThread = new WorkThread();
-    tempThread->setDB(db);
     if(tempThread->setClient(client)){
         threadList->append(tempThread);
     }
     if(runFlag){  
         tempThread->setDB(db);
         tempThread->startThread();
-        tempThread->moveToThread(&wthread);
-        wthread.start();
+//        tempThread->moveToThread(&wthread);
+//        wthread.start();
     }
 
 }
@@ -181,6 +180,7 @@ void MainWindow::checkConnect(){
         if(!temp->clientIsOpen()){
             temp->stopThread();
             threadList->removeOne(temp);
+            delete temp;
         }
     }
     qDebug() << "current thread number: " << threadList->size();
@@ -191,6 +191,7 @@ void MainWindow::checkConnect(){
 //        }
         if(!temp->isOpen()){
             clientList->removeOne(temp);
+            delete temp;
         }
     }
     qDebug() << "current client number: " << clientList->size();
