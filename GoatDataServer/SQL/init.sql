@@ -221,14 +221,14 @@ end||
 create trigger bf_insert_eventData before insert
 on eventData for each row
 begin
-    # set @tempDeviceId = (select deviceId from houseDeviceInfo where deviceId = NEW.routerId);
-    # if(@tempDeviceId is null) then
-    #     insert into houseDeviceInfo(deviceId) values(NEW.routerId);
-    # end if;
-    # set @tempSensorId = (select deviceId from houseDeviceInfo where deviceId = NEW.deviceId);
-    # if(@tempSensorId is null) then
-    #     insert into houseDeviceInfo(deviceId) values(NEW.deviceId);
-    # end if;
+    set @tempDeviceId = (select deviceId from houseDeviceInfo where deviceId = NEW.routerId);
+    if(@tempDeviceId is null) then
+        insert into houseDeviceInfo(deviceId) values(NEW.routerId);
+    end if;
+    set @tempSensorId = (select deviceId from houseDeviceInfo where deviceId = NEW.deviceId);
+    if(@tempSensorId is null) then
+        insert into houseDeviceInfo(deviceId) values(NEW.deviceId);
+    end if;
     if New.eventId = '0' then
         set New.eventState = '已处理';
     else

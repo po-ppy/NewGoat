@@ -24,7 +24,7 @@ void WorkThread::startThread(){
     runFlag = true;
     connect(client,SIGNAL(readyRead()),this,SLOT(dataProcessing()));
 //    connect(client,SIGNAL(disconnected()),this,SLOT(stopThread()));
-    this->start();
+//    this->start();
 }
 
 void WorkThread::stopThread(){
@@ -37,7 +37,7 @@ void WorkThread::stopThread(){
 //    if(this->db.isOpen()){
 //        this->db.close();
 //    }
-    this->quit();
+//    this->quit();
 //    this->wait();
 }
 
@@ -69,7 +69,8 @@ void WorkThread::dataProcessing(){
 //     msleep(5);
 //     QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len),QSqlDatabase::cloneDatabase(this->db,QString::number(QDateTime::currentMSecsSinceEpoch()+tempTime.elapsed())));
 ////     QtConcurrent::run(this,&WorkThread::testData,tempDataList.mid(len),this->db);
-     QtConcurrent::run(this,&WorkThread::testData,tempDataList,this->db);
+        QtConcurrent::run(this,&WorkThread::testData,tempDataList,this->db);
+
 //        QtConcurrent::run(this,&WorkThread::testData,tempDataList,QSqlDatabase::cloneDatabase(this->db,QString::number(QDateTime::currentMSecsSinceEpoch()+tempTime.elapsed())));
 }
 
@@ -211,6 +212,7 @@ void WorkThread::testData(QList<QByteArray> todoList,QSqlDatabase &inDB){
 
     }
     inDB.close();
+
     qDebug() << QThread::currentThreadId() << time.elapsed()/1000.0 << "s stop";
 }
 

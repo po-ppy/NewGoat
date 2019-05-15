@@ -167,6 +167,7 @@ void MainWindow::acceptConnect(){
         threadList->append(tempThread);
     }
     if(runFlag){  
+        QThread::msleep(1);
         tempThread->setDB(db);
         tempThread->startThread();
 //        tempThread->moveToThread(&wthread);

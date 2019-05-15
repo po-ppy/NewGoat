@@ -299,12 +299,15 @@ void OtherDataForm::addOne(){
                 list.append(temp.row());
             }
         }
-
+        DB::instance().data()->getDb().transaction();
         QSqlQuery query;
         query.prepare("update eventData set eventState = '已处理' where id = :id;");
         foreach (int temp, list) {
             query.bindValue(":id",ui->tableView->model()->index(temp,0).data().toInt());
             query.exec();
+        }
+        if(!DB::instance().data()->getDb().commit()){
+            DB::instance().data()->getDb().rollback();
         }
         updateTableView();
     }else{
@@ -331,7 +334,7 @@ void OtherDataForm::deleteSelected(){
         }
     }
 
-
+    DB::instance().data()->getDb().transaction();
     QSqlQuery query;
     switch (dataType) {
     case 0 :
@@ -352,6 +355,9 @@ void OtherDataForm::deleteSelected(){
         query.bindValue(":theId",ui->tableView->model()->index(temp,0).data().toString());
         query.exec();
         //qDebug() << ui->tableView->model()->index(temp,0).data().toString();
+    }
+    if(!DB::instance().data()->getDb().commit()){
+        DB::instance().data()->getDb().rollback();
     }
 //    emit updateSignal();
     updateTableView();
