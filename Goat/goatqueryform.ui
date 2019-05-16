@@ -192,7 +192,7 @@
           <bool>true</bool>
          </property>
          <attribute name="horizontalHeaderVisible">
-          <bool>false</bool>
+          <bool>true</bool>
          </attribute>
          <attribute name="horizontalHeaderCascadingSectionResizes">
           <bool>true</bool>
@@ -207,7 +207,7 @@
           <bool>true</bool>
          </attribute>
          <attribute name="verticalHeaderVisible">
-          <bool>false</bool>
+          <bool>true</bool>
          </attribute>
         </widget>
        </item>
@@ -327,7 +327,7 @@
         <widget class="QTableView" name="houseIdTableView">
          <property name="maximumSize">
           <size>
-           <width>300</width>
+           <width>400</width>
            <height>16777215</height>
           </size>
          </property>

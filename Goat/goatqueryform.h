@@ -17,7 +17,6 @@
 #include <QInputDialog>
 #include <QFile>
 #include <QFileDialog>
-#pragma execution_character_set("utf-8")
 
 namespace Ui {
 class GoatQueryForm;

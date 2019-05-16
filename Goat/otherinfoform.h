@@ -56,6 +56,7 @@ private slots:
 public slots:
     void updateTableView();
     void autoUpdateTableView();
+    void exportSelected();
 
 
 private:
@@ -76,6 +77,7 @@ private:
     QAction *actionRemove;
     QAction *actionAddMore;
     QAction *actionSaveChange;
+    QAction *actionExport;
 //    QAction *actionR5;
 //    QAction *actionR6;
 

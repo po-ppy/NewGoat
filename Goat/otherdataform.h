@@ -62,6 +62,7 @@ public slots:
     void keyWordSearch();
     void addOne();
     void deleteSelected();
+    void exportSelected();
     void showUntreatedEvent();
     int hasUntreatedEvent();
     void initCheckEvent();
@@ -83,6 +84,7 @@ private:
     QMenu *cmenu;
     QAction *actionAdd;
     QAction *actionRemove;
+    QAction *actionExport;
 };
 
 #endif // OTHERDATAFORM_H

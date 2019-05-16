@@ -297,11 +297,13 @@ void OtherInfoForm::initMenu(){
     actionRemove = cmenu->addAction("移除");
     actionAddMore = cmenu->addAction("批量导入");
     actionSaveChange = cmenu->addAction("保存修改");
+    actionExport = cmenu->addAction("导出选中");
 
     connect(actionAdd,SIGNAL(triggered(bool)),this,SLOT(addOne()));
     connect(actionAddMore,SIGNAL(triggered(bool)),this,SLOT(addMore()));
     connect(actionRemove,SIGNAL(triggered(bool)),this,SLOT(deleteSelected()));
     connect(actionSaveChange,SIGNAL(triggered(bool)),this,SLOT(saveChange()));
+    connect(actionExport,SIGNAL(triggered(bool)),this,SLOT(exportSelected()));
 
 }
 
@@ -336,5 +338,62 @@ void OtherInfoForm::on_tableView_customContextMenuRequested(const QPoint &pos)
 {
     if(ui->tableView->selectionModel()->selectedIndexes().size() > 0){
         cmenu->exec(QCursor::pos());
+    }
+}
+
+void OtherInfoForm::exportSelected(){
+    QModelIndexList tempList = ui->tableView->selectionModel()->selectedIndexes();
+    if(tempList.size() < 1){
+        QMessageBox::warning(this,"警告","请先选择要导出的数据!");
+        return;
+    }
+    QList<int> list;
+    foreach(QModelIndex temp, tempList){
+        if(!list.contains(temp.row())){
+            list.append(temp.row());
+        }
+    }
+    QString filePath = QFileDialog::getSaveFileName(this,tr("打开"),".",tr("文本文档(*.txt)"));
+    if(!filePath.isNull()){
+        QFile file(filePath);
+        if(!file.open((QIODevice::WriteOnly | QIODevice::Text))){
+            qDebug() << "Open failed!";
+        }else{
+            QTextStream fileOut(&file);
+            int colCount = ui->tableView->model()->columnCount();
+            QString header = "";
+            switch (infoType) {
+            case 0 :
+                foreach(QString temp, feedHeadList){
+                    fileOut << temp.toLocal8Bit() << "\t";
+                }
+                break;
+            case 1 :
+                foreach(QString temp, vacineHeadList){
+                    fileOut << temp.toLocal8Bit() << "\t";
+                }
+                break;
+            case 2 :
+                foreach(QString temp, productHeadList){
+                    fileOut << temp.toLocal8Bit() << "\t";
+                }
+                break;
+            case 3 :
+                foreach(QString temp, eventHeadList){
+                    fileOut << temp.toLocal8Bit() << "\t";
+                }
+                break;
+            default:
+                header = "出错了！！！";
+            }
+            fileOut << "\n";
+            foreach (int temp, list) {
+                for(int i = 0;i<colCount;i++){
+                    fileOut << ui->tableView->model()->index(temp,i).data().toString().toLocal8Bit() << "\t";
+                }
+                fileOut << "\n";
+            }
+            file.close();
+        }
     }
 }

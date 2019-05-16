@@ -153,26 +153,37 @@ void DeviceQueryForm::unbindSelected(){
 
 void DeviceQueryForm::exportSelected(){
     QModelIndexList tempList = ui->tableView->selectionModel()->selectedIndexes();
+    if(tempList.size() < 1){
+        QMessageBox::warning(this,"警告","请先选择要导出的数据!");
+        return;
+    }
     QList<int> list;
     foreach(QModelIndex temp, tempList){
         if(!list.contains(temp.row())){
             list.append(temp.row());
         }
     }
-    QString filePath = QFileDialog::getSaveFileName(this,"打开",".","文本文档(*.txt)");
-    if(filePath.isNull()){
-        return;
+    QString filePath = QFileDialog::getSaveFileName(this,tr("打开"),".",tr("文本文档(*.txt)"));
+    if(!filePath.isNull()){
+        QFile file(filePath);
+        if(!file.open((QIODevice::WriteOnly | QIODevice::Text))){
+            qDebug() << "Open failed!";
+        }else{
+            QTextStream fileOut(&file);
+            int colCount = ui->tableView->model()->columnCount();
+            for(int i = 0; i<colCount;i++){
+                fileOut << ui->tableView->model()->headerData(i,Qt::Horizontal).toString().toLocal8Bit() << "\t";
+            }
+            fileOut << "\n";
+            foreach (int temp, list) {
+                for(int i = 0;i<ui->tableView->model()->columnCount();i++){
+                    fileOut << ui->tableView->model()->index(temp,i).data().toString().toLocal8Bit() << "\t";
+                }
+                fileOut << "\n";
+            }
+            file.close();
+        }
     }
-    QFile file(filePath);
-    if(!file.open(QIODevice::WriteOnly|QIODevice::Text)){
-        QMessageBox::warning(this,"警告","文件打开失败!");
-        return;
-    }
-    QTextStream outStream(&file);
-    foreach (int temp, list) {
-        outStream << ui->tableView->model()->index(temp,0).data().toString().toLocal8Bit() << " " << ui->tableView->model()->index(temp,2).data().toString().toLocal8Bit() << " " << ui->tableView->model()->index(temp,4).data().toString().toLocal8Bit() << "\n";
-    }
-    file.close();
 }
 
 void DeviceQueryForm::errorSelected(){
