@@ -159,6 +159,7 @@
     </property>
     <addaction name="action"/>
     <addaction name="action_houseBinding"/>
+    <addaction name="action_init"/>
    </widget>
    <widget class="QMenu" name="menu_H">
     <property name="font">
@@ -419,6 +420,11 @@
      <family>黑体</family>
      <pointsize>14</pointsize>
     </font>
+   </property>
+  </action>
+  <action name="action_init">
+   <property name="text">
+    <string>初始化/清除系统</string>
    </property>
   </action>
  </widget>

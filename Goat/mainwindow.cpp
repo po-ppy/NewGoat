@@ -69,6 +69,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(otherDataForm,SIGNAL(shouldShowUntreatedEvent()),this,SLOT(showTheEvent()));
 
     connect(ui->action_export,SIGNAL(triggered(bool)),exportDialog,SLOT(show()));
+    connect(ui->action_import,SIGNAL(triggered(bool)),exportDialog,SLOT(doImport()));
+    connect(ui->action_init,SIGNAL(triggered(bool)),exportDialog,SLOT(doInit()));
 
 
 }

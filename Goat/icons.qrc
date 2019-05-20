@@ -14,5 +14,6 @@
         <file>huozaijingbaosheng.mp3</file>
         <file>menling.mp3</file>
         <file>qt_zh_CN.qm</file>
+        <file>SQL/init.sql</file>
     </qresource>
 </RCC>

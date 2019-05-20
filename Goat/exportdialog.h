@@ -29,6 +29,8 @@ public slots:
     void chooseAll();
     void chooseZero();
     void doExport();
+    void doImport();
+    void doInit();
     QString getChoosed();
     bool exportEndState(int exitCode, QProcess::ExitStatus exitStatus);
 private slots:
@@ -40,6 +42,8 @@ private:
     Ui::ExportDialog *ui;
     QMap<QString,QString> map;
     QProcess* process;
+    bool exportFlag;
+    bool initFlag;
 };
 
 #endif // EXPORTDIALOG_H

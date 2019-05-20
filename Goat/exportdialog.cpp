@@ -30,6 +30,8 @@ ExportDialog::ExportDialog(QWidget *parent) :
     process = new QProcess(this);
     connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
             [=](int exitCode, QProcess::ExitStatus exitStatus){ exportEndState(exitCode, exitStatus);});
+    exportFlag = true;
+    initFlag = false;
 }
 
 ExportDialog::~ExportDialog()
@@ -81,6 +83,8 @@ void ExportDialog::on_checkBox_chooseAll_clicked()
 }
 
 void ExportDialog::doExport(){
+    exportFlag = true;
+    initFlag = false;
     if(!ui->checkBox_chooseAll->isChecked()){
         QMessageBox::warning(this,"警告","请先选择要导出的数据!!");
         return;
@@ -145,12 +149,28 @@ bool ExportDialog::exportEndState(int exitCode, QProcess::ExitStatus exitStatus)
     qDebug() << "exitCode is " << exitCode;
     switch (exitStatus) {
     case QProcess::NormalExit :
-        QMessageBox::information(this,"成功","导出成功!");
+        if(initFlag){
+            QMessageBox::information(this,"成功","初始化/清除成功!");
+        }else{
+            if(exportFlag){
+                QMessageBox::information(this,"成功","导出成功!");
+            }else{
+                QMessageBox::information(this,"成功","导入成功!");
+            }
+        }
         process->terminate();
         return true;
         break;
     case QProcess::CrashExit :
-        QMessageBox::warning(this,"警告",QString("导出失败!\nexitCode: %1.").arg(exitCode));
+        if(initFlag){
+            QMessageBox::warning(this,"警告",QString("初始化/清除失败!\nexitCode: %1.").arg(exitCode));
+        }else{
+            if(exportFlag){
+                QMessageBox::warning(this,"警告",QString("导出失败!\nexitCode: %1.").arg(exitCode));
+            }else{
+                QMessageBox::warning(this,"警告",QString("导入失败!\nexitCode: %1.").arg(exitCode));
+            }
+        }
         process->terminate();
         return false;
         break;
@@ -165,6 +185,54 @@ QString ExportDialog::getChoosed(){
         }
     }
     return result;
+}
+
+void ExportDialog::doImport(){
+    exportFlag = false;
+    initFlag = false;
+    if(!DB::instance().data()->getDb().isOpen()){
+        QMessageBox::warning(this,"警告","请先登录!");
+        return;
+    }
+
+    QString fileName = QFileDialog::getOpenFileName(this,"选择",QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)+"/backup.sql","SQL (*.sql)");
+    if(fileName.isNull() || fileName.isEmpty()){
+        return;
+    }
+    qDebug() << fileName;
+
+    QString arglist = "";
+    arglist += " -u" + DB::instance().data()->getDb().userName();
+    arglist += " -p" + DB::instance().data()->getDb().password();
+    arglist += " goatdb ";
+//    arglist += " > " + fileName;
+    QString cmd = "mysql"+arglist;
+    qDebug() << cmd;
+    process->setStandardInputFile(fileName);
+//    process->setStandardOutputFile(fileName);
+    process->start(cmd);
+}
+
+void ExportDialog::doInit(){
+    if(!DB::instance().data()->getDb().isOpen()){
+        QMessageBox::warning(this,"警告","请先登录!");
+        return;
+    }
+    initFlag = true;
+    QString arglist = "";
+    arglist += " -u" + DB::instance().data()->getDb().userName();
+    arglist += " -p" + DB::instance().data()->getDb().password();
+    arglist += " goatdb ";
+//    arglist += " > " + fileName;
+    QString cmd = "mysql"+arglist;
+    qDebug() << cmd;
+
+    process->setStandardInputFile("SQL/init.sql");
+    if(!QFile::exists("SQL/init.sql")){
+        QMessageBox::warning(this,"警告","未找到inti.sql!\n请重新安装软件。");
+    }
+//    process->setStandardOutputFile(fileName);
+    process->start(cmd);
 }
 
 void ExportDialog::on_pushButton_export_clicked()
