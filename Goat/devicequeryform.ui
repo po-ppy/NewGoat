@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1038</width>
-    <height>668</height>
+    <width>1040</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="font">
@@ -25,7 +25,8 @@
       <widget class="QLabel" name="label_2">
        <property name="font">
         <font>
-         <pointsize>16</pointsize>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">
@@ -40,13 +41,20 @@
       <widget class="QComboBox" name="comboBox">
        <property name="font">
         <font>
-         <pointsize>16</pointsize>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
         </font>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QCheckBox" name="goatCheckBox">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>奶山羊绑定</string>
        </property>
@@ -74,7 +82,8 @@
       <widget class="QPushButton" name="pushButton">
        <property name="font">
         <font>
-         <pointsize>16</pointsize>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">
@@ -104,7 +113,8 @@
       <widget class="QLabel" name="label_3">
        <property name="font">
         <font>
-         <pointsize>16</pointsize>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <property name="text">
@@ -119,7 +129,8 @@
       <widget class="QComboBox" name="comboBox_2">
        <property name="font">
         <font>
-         <pointsize>16</pointsize>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
         </font>
        </property>
        <item>
@@ -145,7 +156,8 @@
     <widget class="QTableView" name="tableView">
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <family>微软雅黑</family>
+       <pointsize>14</pointsize>
       </font>
      </property>
      <property name="contextMenuPolicy">

@@ -40,6 +40,7 @@ public slots:
     void receiveGoatId(QString goatId);
     void receiveDeviceId(QString deviceId);
     void addFromFile();
+    void exportToFile();
 private slots:
     void on_goatCheckBox_stateChanged(int arg1);
     void on_deviceCheckBox_stateChanged(int arg1);
@@ -48,6 +49,7 @@ private slots:
     void on_deviceTableView_doubleClicked(const QModelIndex &index);
     void on_confirmButton_clicked();
     void on_selectFileButton_clicked();
+    void on_exportButton_clicked();
 };
 
 #endif // BINDINGDIALOG_H

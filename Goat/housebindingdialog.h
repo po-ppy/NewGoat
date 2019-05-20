@@ -35,6 +35,7 @@ public slots:
     void receiveHouseId(QString houseId);
     void receiveDeviceId(QString deviceId);
     void addFromFile();
+    void exportToFile();
 
 private slots:
     void on_houseDeviceCheckBox_stateChanged(int arg1);
@@ -50,6 +51,8 @@ private slots:
     void on_confirmButton_2_clicked();
 
     void on_selectFileButton_2_clicked();
+
+    void on_exportButton_clicked();
 
 private:
     Ui::HouseBindingDialog *ui;

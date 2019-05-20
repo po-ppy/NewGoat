@@ -48,11 +48,11 @@ void HouseBindingDialog::updateDeviceTable(){
 }
 
 void HouseBindingDialog::startBinding(){
-    QSqlQuery* qSqlQuery = new QSqlQuery();
-    qSqlQuery->prepare("insert into houseBindingInfo(houseId ,deviceId) values(:houseId ,:deviceId) on duplicate key update houseId=values(houseId),deviceId=values(deviceId);");
-    qSqlQuery->bindValue(":houseId",ui->houseSelected->text().trimmed());
-    qSqlQuery->bindValue(":deviceId",ui->houseDeviceSelected->text().trimmed());
-    if(qSqlQuery->exec()){
+    QSqlQuery qSqlQuery;
+    qSqlQuery.prepare("insert into houseBindingInfo(houseId ,deviceId) values(:houseId ,:deviceId) on duplicate key update houseId=values(houseId),deviceId=values(deviceId);");
+    qSqlQuery.bindValue(":houseId",ui->houseSelected->text().trimmed());
+    qSqlQuery.bindValue(":deviceId",ui->houseDeviceSelected->text().trimmed());
+    if(qSqlQuery.exec()){
         ui->bindingResult->setText("羊舍("+ui->houseSelected->text()+") 和 设备("+ui->houseDeviceSelected->text()+") 绑定成功 。");
         ui->bindingResult->setStyleSheet("color:green;");
         ui->houseSelected->setText("");
@@ -63,9 +63,9 @@ void HouseBindingDialog::startBinding(){
     }else{
         ui->bindingResult->setText("绑定失败！");
         ui->bindingResult->setStyleSheet("color:red;");
-        qDebug() << qSqlQuery->lastQuery();
+        qDebug() << qSqlQuery.lastQuery();
           QSqlError err;
-        err= qSqlQuery->lastError();
+        err= qSqlQuery.lastError();
          qDebug() << err.text();
     }
 
@@ -123,6 +123,37 @@ void HouseBindingDialog::addFromFile(){
     }
 }
 
+void HouseBindingDialog::exportToFile(){
+    QSqlQuery query;
+    if(!query.exec("select * from houseBindingInfo;")){
+        QMessageBox::warning(this,"警告","数据库连接失败！");
+        return;
+    }else{
+        if(query.size() < 1){
+            QMessageBox::information(this,"提示","未找到绑定数据!");
+            return;
+        }
+    }
+
+    QString filePath = QFileDialog::getSaveFileName(this,tr("打开"),".",tr("文本文档(*.txt)"));
+    if(!filePath.isNull()){
+        QFile file(filePath);
+        if(!file.open((QIODevice::WriteOnly | QIODevice::Text))){
+            QMessageBox::warning(this,"警告","文件打开失败！");
+            qDebug() << "HouseBindnig Open failed!";
+            return;
+        }else{
+            QTextStream fileOut(&file);
+            fileOut << QString("舍号").toLocal8Bit() <<"\t" << QString("设备编号").toLocal8Bit() << "\n";
+            while(query.next()){
+                fileOut << query.value("houseId").toString().toLocal8Bit() << "\t" << query.value("deviceId").toString().toLocal8Bit() << "\n";
+            }
+            file.close();
+            QMessageBox::information(this,"成功","成功导入到指定文件!");
+        }
+    }
+}
+
 void HouseBindingDialog::on_houseDeviceCheckBox_stateChanged(int arg1)
 {
     updateDeviceTable();
@@ -166,4 +197,9 @@ void HouseBindingDialog::on_confirmButton_2_clicked()
 void HouseBindingDialog::on_selectFileButton_2_clicked()
 {
     addFromFile();
+}
+
+void HouseBindingDialog::on_exportButton_clicked()
+{
+    exportToFile();
 }

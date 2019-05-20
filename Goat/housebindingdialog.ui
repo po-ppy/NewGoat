@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>850</width>
-    <height>673</height>
+    <width>854</width>
+    <height>677</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,12 +18,24 @@
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QGroupBox" name="groupBox_3">
+       <property name="font">
+        <font>
+         <family>黑体</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
        <property name="title">
         <string>羊舍</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <widget class="QCheckBox" name="houseCheckBox">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>未绑定</string>
           </property>
@@ -34,6 +46,12 @@
         </item>
         <item>
          <widget class="QTableView" name="houseTableView">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <attribute name="verticalHeaderVisible">
            <bool>false</bool>
           </attribute>
@@ -67,12 +85,24 @@
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox_4">
+       <property name="font">
+        <font>
+         <family>黑体</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
        <property name="title">
         <string>设备</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <widget class="QCheckBox" name="houseDeviceCheckBox">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>未绑定</string>
           </property>
@@ -83,6 +113,12 @@
         </item>
         <item>
          <widget class="QTableView" name="houseDeviceTableView">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <attribute name="verticalHeaderVisible">
            <bool>false</bool>
           </attribute>
@@ -120,8 +156,27 @@
      </item>
      <item>
       <widget class="QPushButton" name="selectFileButton_2">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>文件导入</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="exportButton">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>导出绑定</string>
        </property>
       </widget>
      </item>
@@ -140,6 +195,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="doubleButton_2">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>双击绑定</string>
        </property>
@@ -160,6 +221,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="confirmButton_2">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>确认绑定</string>
        </property>

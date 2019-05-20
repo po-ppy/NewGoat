@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
-    <height>659</height>
+    <width>432</width>
+    <height>661</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+    <pointsize>14</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>添加</string>
@@ -20,6 +26,7 @@
       <widget class="QLabel" name="remarkLabel">
        <property name="font">
         <font>
+         <family>微软雅黑</family>
          <pointsize>14</pointsize>
         </font>
        </property>
@@ -35,6 +42,7 @@
       <widget class="QDateTimeEdit" name="dateTimeEdit">
        <property name="font">
         <font>
+         <family>微软雅黑</family>
          <pointsize>14</pointsize>
         </font>
        </property>
@@ -44,6 +52,7 @@
       <widget class="QComboBox" name="goatIdComboBox">
        <property name="font">
         <font>
+         <family>微软雅黑</family>
          <pointsize>14</pointsize>
         </font>
        </property>
@@ -74,6 +83,7 @@
       <widget class="QLabel" name="dateTimeLabel">
        <property name="font">
         <font>
+         <family>微软雅黑</family>
          <pointsize>14</pointsize>
         </font>
        </property>
@@ -89,6 +99,12 @@
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QCheckBox" name="goatIdCheckBox">
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
          <property name="layoutDirection">
           <enum>Qt::RightToLeft</enum>
          </property>
@@ -101,6 +117,7 @@
         <widget class="QLabel" name="goatIdLabel">
          <property name="font">
           <font>
+           <family>微软雅黑</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -118,6 +135,7 @@
       <widget class="QLabel" name="infoIdLabel">
        <property name="font">
         <font>
+         <family>微软雅黑</family>
          <pointsize>14</pointsize>
         </font>
        </property>
@@ -133,6 +151,7 @@
       <widget class="QComboBox" name="infoNameComboBox">
        <property name="font">
         <font>
+         <family>微软雅黑</family>
          <pointsize>14</pointsize>
         </font>
        </property>
@@ -142,10 +161,11 @@
       <widget class="QLabel" name="titleLabel">
        <property name="font">
         <font>
+         <family>黑体</family>
          <pointsize>18</pointsize>
-         <weight>75</weight>
+         <weight>50</weight>
          <italic>false</italic>
-         <bold>true</bold>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
@@ -157,6 +177,7 @@
       <widget class="QComboBox" name="houseIdComboBox">
        <property name="font">
         <font>
+         <family>微软雅黑</family>
          <pointsize>14</pointsize>
         </font>
        </property>
@@ -166,6 +187,11 @@
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QCheckBox" name="houseIdCheckBox">
+         <property name="font">
+          <font>
+           <family>微软雅黑</family>
+          </font>
+         </property>
          <property name="layoutDirection">
           <enum>Qt::RightToLeft</enum>
          </property>
@@ -178,6 +204,7 @@
         <widget class="QLabel" name="houseIdLabel">
          <property name="font">
           <font>
+           <family>微软雅黑</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -195,6 +222,7 @@
       <widget class="QTextEdit" name="remarkTextEdit">
        <property name="font">
         <font>
+         <family>微软雅黑</family>
          <pointsize>14</pointsize>
         </font>
        </property>
@@ -204,6 +232,7 @@
       <widget class="QLabel" name="levelLabel">
        <property name="font">
         <font>
+         <family>微软雅黑</family>
          <pointsize>14</pointsize>
         </font>
        </property>
@@ -217,6 +246,12 @@
      </item>
      <item row="7" column="2" colspan="2">
       <widget class="QPushButton" name="pushButton">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>确认添加</string>
        </property>

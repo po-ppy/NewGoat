@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>980</width>
-    <height>655</height>
+    <width>982</width>
+    <height>657</height>
    </rect>
   </property>
   <property name="font">
@@ -23,12 +23,24 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QGroupBox" name="groupBox">
+       <property name="font">
+        <font>
+         <family>黑体</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
        <property name="title">
         <string>奶山羊</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QCheckBox" name="goatCheckBox">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>未绑定</string>
           </property>
@@ -39,6 +51,12 @@
         </item>
         <item>
          <widget class="QTableView" name="goatTableView">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <attribute name="verticalHeaderVisible">
            <bool>false</bool>
           </attribute>
@@ -72,12 +90,24 @@
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox_2">
+       <property name="font">
+        <font>
+         <family>黑体</family>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
        <property name="title">
         <string>设备</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QCheckBox" name="deviceCheckBox">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>未绑定</string>
           </property>
@@ -88,6 +118,12 @@
         </item>
         <item>
          <widget class="QTableView" name="deviceTableView">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
           <attribute name="verticalHeaderVisible">
            <bool>false</bool>
           </attribute>
@@ -146,8 +182,27 @@
      </item>
      <item>
       <widget class="QPushButton" name="selectFileButton">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>文件导入</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="exportButton">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>导出绑定</string>
        </property>
       </widget>
      </item>
@@ -166,6 +221,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="doubleButton">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>双击绑定</string>
        </property>
@@ -186,6 +247,12 @@
      </item>
      <item>
       <widget class="QPushButton" name="confirmButton">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>确认绑定</string>
        </property>

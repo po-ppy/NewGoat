@@ -174,7 +174,43 @@ void bindingDialog::addFromFile(){
     }
 }
 
+void bindingDialog::exportToFile(){
+    QSqlQuery query;
+    if(!query.exec("select * from bindingInfo;")){
+        QMessageBox::warning(this,"警告","数据库连接失败！");
+        return;
+    }else{
+        if(query.size() < 1){
+            QMessageBox::information(this,"提示","未找到绑定数据!");
+            return;
+        }
+    }
+
+    QString filePath = QFileDialog::getSaveFileName(this,tr("打开"),".",tr("文本文档(*.txt)"));
+    if(!filePath.isNull()){
+        QFile file(filePath);
+        if(!file.open((QIODevice::WriteOnly | QIODevice::Text))){
+            QMessageBox::warning(this,"警告","文件打开失败！");
+            qDebug() << "HouseBindnig Open failed!";
+            return;
+        }else{
+            QTextStream fileOut(&file);
+            fileOut << QString("奶山羊编号").toLocal8Bit() <<"\t" << QString("设备编号").toLocal8Bit() << "\n";
+            while(query.next()){
+                fileOut << query.value("goatId").toString().toLocal8Bit() << "\t" << query.value("deviceId").toString().toLocal8Bit() << "\n";
+            }
+            file.close();
+            QMessageBox::information(this,"成功","成功导入到指定文件!");
+        }
+    }
+}
+
 void bindingDialog::on_selectFileButton_clicked()
 {
     addFromFile();
+}
+
+void bindingDialog::on_exportButton_clicked()
+{
+    exportToFile();
 }

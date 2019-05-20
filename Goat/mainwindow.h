@@ -11,6 +11,7 @@
 #include <logindialog.h>
 #include <helpdialog.h>
 #include <housebindingdialog.h>
+#include <exportdialog.h>
 
 
 namespace Ui {
@@ -55,6 +56,7 @@ private:
     HouseBindingDialog *houseBindingDialog;
     LoginDialog *loginDialog;
     HelpDialog *helpDialog;
+    ExportDialog *exportDialog;
 };
 
 #endif // MAINWINDOW_H

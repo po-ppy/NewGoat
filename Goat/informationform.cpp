@@ -22,7 +22,7 @@ InformationForm::InformationForm(QWidget *parent) :
 
 InformationForm::~InformationForm()
 {
-    freshTimer->stop();
+//    freshTimer->stop();
     delete ui;
 }
 
@@ -342,3 +342,8 @@ void InformationForm::updateSqlTable(){
 //        }
 //    }
 //}
+
+void InformationForm::on_pushButton_clicked()
+{
+    emit exportSignal();
+}

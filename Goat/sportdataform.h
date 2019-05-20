@@ -27,8 +27,10 @@ public:
     ~SportDataForm();
 signals:
     void updateSignal();
+//    void exportSignal(QString houseId);
 public slots:
     void updateTabs();
+    void exportToFile();
 private slots:
     void insert_tab();
     void delete_tab();

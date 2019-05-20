@@ -21,6 +21,10 @@
 #include <QModelIndex>
 #include <QSqlError>
 #include <QDateTime>
+#include <QFile>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QInputDialog>
 #include <db.h>
 
 QT_CHARTS_USE_NAMESPACE
@@ -42,6 +46,7 @@ public slots:
     QString getHouseId();
     void initSqlTable();
     void updateSqlTable();
+//    void exportToFile(QString houseId);
 //    void updateAllData();
 //    void updateGoatList();
 //    void updateHouseData();
@@ -54,6 +59,9 @@ public slots:
 private slots:
 //    void on_tableView_doubleClicked(const QModelIndex &index);
 
+    void on_pushButton_clicked();
+signals:
+    void exportSignal();
 private:
     Ui::InformationForm *ui;
 

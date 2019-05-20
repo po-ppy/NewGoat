@@ -6,7 +6,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     loginDialog = new LoginDialog(this);
     helpDialog = new HelpDialog(this);
 
@@ -16,10 +15,12 @@ MainWindow::MainWindow(QWidget *parent) :
     otherInfoForm = new OtherInfoForm(this);
     otherDataForm = new OtherDataForm(this);
 
+    otherDataForm->setFont(QFont("SimHei",20));
     //ui->action_feed->setCheckable(true);
 
     bdDialog = new bindingDialog(this);
     houseBindingDialog = new HouseBindingDialog(this);
+    exportDialog = new ExportDialog(this);
 
     ui->stackedWidget->addWidget(sportDataForm);
     ui->stackedWidget->addWidget(goatQueryForm);
@@ -66,6 +67,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowIcon(QIcon(":/nu.ico"));
 
     connect(otherDataForm,SIGNAL(shouldShowUntreatedEvent()),this,SLOT(showTheEvent()));
+
+    connect(ui->action_export,SIGNAL(triggered(bool)),exportDialog,SLOT(show()));
 
 
 }

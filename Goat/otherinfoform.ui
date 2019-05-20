@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>804</width>
-    <height>625</height>
+    <width>806</width>
+    <height>627</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -47,6 +47,12 @@
      </item>
      <item row="3" column="1">
       <widget class="QPushButton" name="addMoreButton">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>批量导入</string>
        </property>
@@ -56,10 +62,11 @@
       <widget class="QLabel" name="titleLabel">
        <property name="font">
         <font>
-         <pointsize>16</pointsize>
-         <weight>75</weight>
+         <family>黑体</family>
+         <pointsize>18</pointsize>
+         <weight>50</weight>
          <italic>false</italic>
-         <bold>true</bold>
+         <bold>false</bold>
         </font>
        </property>
        <property name="layoutDirection">
@@ -75,6 +82,12 @@
      </item>
      <item row="3" column="6">
       <widget class="QPushButton" name="removeButton">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -92,6 +105,12 @@
      </item>
      <item row="3" column="8">
       <widget class="QPushButton" name="addButton">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -109,6 +128,12 @@
      </item>
      <item row="1" column="1" colspan="9">
       <widget class="QTableView" name="tableView">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
        </property>
@@ -116,6 +141,12 @@
      </item>
      <item row="3" column="4">
       <widget class="QPushButton" name="saveChangeButton">
+       <property name="font">
+        <font>
+         <family>微软雅黑</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="text">
         <string>保存修改</string>
        </property>
