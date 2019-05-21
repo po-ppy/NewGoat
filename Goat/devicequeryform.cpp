@@ -37,7 +37,7 @@ void DeviceQueryForm::updateTableWidgest(){
     refreshFlag = 0;
     QSqlQuery query;
     if(ui->goatCheckBox->isChecked()){
-        query.prepare("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.goatId,'无') as 绑定山羊编号,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from deviceInfo a left join bindingInfo c on a.deviceId = c.deviceId right join goatInfo b on b.goatId = c.goatId where b.houseId = :houseId;");
+        query.prepare("select a.deviceId as 设备编号,a.deviceState as 设备状态,ifnull(b.goatId,'无') as 绑定山羊编号,ifnull(b.houseId,'无') as 舍号,a.inTime as 购入时间 from deviceInfo a left join bindingInfo c on a.deviceId = c.deviceId left join goatInfo b on b.goatId = c.goatId where b.houseId = :houseId;");
     }else {
         query.prepare("select a.deviceId as 设备编号, a.deviceState as 设备状态,b.houseId as 绑定舍号,a.inTime as 购入时间 from houseDeviceInfo a left join houseBindingInfo b on a.deviceId = b.deviceId where a.houseId = :houseId;");
     }
