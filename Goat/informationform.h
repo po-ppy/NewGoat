@@ -41,7 +41,7 @@ public:
     explicit InformationForm(QWidget *parent = 0);
     ~InformationForm();
 public slots:
-//    void createChart();
+    void createChart();
     void setHouseId(QString inHouseId);
     QString getHouseId();
     void initSqlTable();
@@ -50,7 +50,7 @@ public slots:
 //    void updateAllData();
 //    void updateGoatList();
 //    void updateHouseData();
-//    void updateChart();
+    void updateChart();
 //    double toG(double in);
 //    double toG(QByteArray in);
 //    double getG(double in1,double in2,double in3);
