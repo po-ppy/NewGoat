@@ -576,7 +576,7 @@
        </item>
        <item>
         <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
+         <item row="0" column="2">
           <widget class="QTableView" name="tableView_2">
            <property name="font">
             <font>

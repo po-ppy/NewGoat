@@ -40,7 +40,8 @@ void SportDataForm::updateTabs(){
 //        connect(this,SIGNAL(updateSignal()),temp,SLOT(initSqlTable()));
         //temp->moveToThread(wkThread);
         //wkThread->start();
-        temp->initSqlTable();
+//        temp->initSqlTable();
+        temp->updateChart();
         ui->tabWidget->addTab(temp,QIcon(":/she.png"),query.value(0).toString());
     }
     for(int i = 0;i<tabCount;i++){
@@ -137,5 +138,6 @@ void SportDataForm::exportToFile(){
 void SportDataForm::on_tabWidget_currentChanged(int index)
 {
     InformationForm* temp = (InformationForm *)ui->tabWidget->widget(index);
-    temp->updateSqlTable();
+//    temp->updateSqlTable();
+    temp->updateChart();
 }
