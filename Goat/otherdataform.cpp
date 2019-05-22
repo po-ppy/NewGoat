@@ -477,8 +477,8 @@ void OtherDataForm::initPlayer(){
     playlist = new QMediaPlaylist(this);
     player = new QMediaPlayer(this);
 
-    playlist->addMedia(QUrl::fromLocalFile(QDir::currentPath()+"/sound/jingbao.mp3"));
-    playlist->addMedia(QUrl::fromLocalFile(QDir::currentPath()+"/sound/huojing.mp3"));
+    playlist->addMedia(QUrl::fromLocalFile(QDir::toNativeSeparators(QDir::currentPath()+"/sound/jingbao.mp3")));
+    playlist->addMedia(QUrl::fromLocalFile(QDir::toNativeSeparators(QDir::currentPath()+"/sound/huojing.mp3")));
 
     playlist->setCurrentIndex(1);
     playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);

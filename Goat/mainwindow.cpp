@@ -72,7 +72,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->action_import,SIGNAL(triggered(bool)),exportDialog,SLOT(doImport()));
     connect(ui->action_init,SIGNAL(triggered(bool)),exportDialog,SLOT(doInit()));
 
-
 }
 
 MainWindow::~MainWindow()

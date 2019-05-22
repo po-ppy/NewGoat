@@ -131,6 +131,7 @@ void ExportDialog::doExport(){
     QString cmd = "mysqldump"+arglist;
     qDebug() << cmd;
     process->setStandardOutputFile(fileName);
+//    qDebug() << "filename " << fileName;
     process->start(cmd);
 //    process->terminate();
 //    process->kill();
@@ -228,7 +229,7 @@ void ExportDialog::doInit(){
     QString cmd = "mysql"+arglist;
     qDebug() << cmd;
 
-    process->setStandardInputFile("SQL/init.sql");
+    process->setStandardInputFile(QDir::toNativeSeparators("SQL/init.sql"));
     if(!QFile::exists("SQL/init.sql")){
         QMessageBox::warning(this,"警告","未找到inti.sql!\n请重新安装软件。");
     }

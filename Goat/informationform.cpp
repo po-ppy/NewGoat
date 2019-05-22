@@ -338,6 +338,13 @@ void InformationForm::pointHovered(const QPointF &point, bool state){
 void InformationForm::updateChart(){
     if(this->isVisible()){
         QSqlQuery query;
+        query.prepare("select deviceId from houseBindingInfo where houseId = :houseId;");
+        query.bindValue(":houseId",houseId);
+        query.exec();
+        if(query.next()){
+            ui->deviceIdLabel->setText(query.value(0).toString());
+        }
+
         //query.prepare("select * from (select * from sportData where goatId = :goatId ORDER By datatimem desc limit 10) aa order by id;");
         query.prepare("select * from houseData where houseId = :houseId ORDER By datatimem desc limit 20;");
 //        query.bindValue(":goatId",ui->goatIdLabel->text());
