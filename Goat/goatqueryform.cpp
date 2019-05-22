@@ -461,16 +461,17 @@ void GoatQueryForm::addFromFile(){
             QList<QString> errList;
             int count = 0;
             while(!file.atEnd()){
-                QList<QString> tempLineList = QString::fromLocal8Bit(file.readLine()).remove("\n").split(" ");
+//                QList<QString> tempLineList = QString::fromLocal8Bit(file.readLine()).remove("\n").split("\t");
+                QList<QString> tempLineList = QString::fromUtf8(file.readLine()).remove("\n").split("\t");
+
                 tempLineList.removeAll("");
                 tempLineList.removeAll(" ");
-                //qDebug() << tempLineList.length();
                 if(tempLineList.length() == 3){
                     QSqlQuery query;
                     query.prepare("insert into goatInfo(goatId,weight,houseId,inTime) values(:goatId,:weight,:houseId,now());");
                     query.bindValue(":goatId",tempLineList.at(0));
-                    query.bindValue(":weight",tempLineList.at(1).toFloat());
-                    query.bindValue(":houseId",tempLineList.at(2));
+                    query.bindValue(":houseId",tempLineList.at(1));
+                    query.bindValue(":weight",tempLineList.at(2).toFloat());
                     if(!query.exec()){
                         errList.append(tempLineList.at(0));
                     }else{

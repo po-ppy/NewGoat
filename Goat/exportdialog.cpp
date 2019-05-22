@@ -218,6 +218,7 @@ void ExportDialog::doInit(){
         QMessageBox::warning(this,"警告","请先登录!");
         return;
     }
+    QMessageBox::information(this,"提示","初始化已开始，请耐心等待!");
     initFlag = true;
     QString arglist = "";
     arglist += " -u" + DB::instance().data()->getDb().userName();

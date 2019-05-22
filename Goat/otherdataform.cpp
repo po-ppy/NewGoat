@@ -477,15 +477,15 @@ void OtherDataForm::initPlayer(){
     playlist = new QMediaPlaylist(this);
     player = new QMediaPlayer(this);
 
-    playlist->addMedia(QUrl::fromLocalFile("/home/poppy/Downloads/menling.mp3"));
-    playlist->addMedia(QUrl::fromLocalFile("/home/poppy/Downloads/huozaijingbaosheng.mp3"));
+    playlist->addMedia(QUrl::fromLocalFile(QDir::currentPath()+"/sound/jingbao.mp3"));
+    playlist->addMedia(QUrl::fromLocalFile(QDir::currentPath()+"/sound/huojing.mp3"));
 
     playlist->setCurrentIndex(1);
     playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
     player->setMedia(playlist);
 
     if(playlist->mediaCount() != 2){
-        QMessageBox::warning(this,"警告","缺少系统提示音!");
+        QMessageBox::warning(this,"警告","缺少系统提示音!(可在安装目录下建立sound目录，并放入jingbao.mp3和huojing.mp3文件修复.)");
     }
 }
 

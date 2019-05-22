@@ -95,21 +95,23 @@ void HouseBindingDialog::addFromFile(){
         QList<QString> errList;
         int count = 0;
         QSqlQuery query;
-        query.prepare("insert into bindingInfo(goatId ,deviceId) values(:goatId ,:deviceId) on duplicate key update goatId=values(goatId),deviceId=values(deviceId);");
+        query.prepare("insert into houseBindingInfo(houseId ,deviceId) values(:houseId ,:deviceId) on duplicate key update houseId=values(houseId),deviceId=values(deviceId);");
         while(!file.atEnd()){
-            QList<QString> tempInfoList = QString::fromLocal8Bit(file.readLine()).remove("\n").split(" ");
+            QList<QString> tempInfoList = QString::fromLocal8Bit(file.readLine()).remove("\n").split("\t");
             tempInfoList.removeAll("");
             tempInfoList.removeAll(" ");
-            query.bindValue(":deviceId",tempInfoList.at(0));
-            query.bindValue(":goatId",tempInfoList.at(1));
+            query.bindValue(":houseId",tempInfoList.at(0));
+            query.bindValue(":deviceId",tempInfoList.at(1));
+
             if(!query.exec()){
-                errList.append(tempInfoList.at(0));
+                qDebug() << query.lastError().text();
+                errList.append(tempInfoList.at(1));
             }else{
                 count += 1;
             }
         }
         emit updateSignal();
-        QMessageBox::information(this,"结果",QString::number(count)+"条导入成功，"+QString::number(errList.length())+"条导入失败。(失败结果保存在剪切板中");
+        QMessageBox::information(this,"结果",QString::number(count)+"条导入成功，"+QString::number(errList.length())+"条导入失败。(失败结果保存在剪切板中)");
         if(errList.length()>0){
             QClipboard *tempBoard = QApplication::clipboard();
             QString temp = "";

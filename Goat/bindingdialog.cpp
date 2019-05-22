@@ -148,13 +148,13 @@ void bindingDialog::addFromFile(){
         QSqlQuery query;
         query.prepare("insert into bindingInfo(goatId ,deviceId) values(:goatId ,:deviceId) on duplicate key update goatId=values(goatId),deviceId=values(deviceId);");
         while(!file.atEnd()){
-            QList<QString> tempInfoList = QString::fromLocal8Bit(file.readLine()).remove("\n").split(" ");
+            QList<QString> tempInfoList = QString::fromUtf8(file.readLine()).remove("\n").split("\t");
             tempInfoList.removeAll("");
             tempInfoList.removeAll(" ");
-            query.bindValue(":deviceId",tempInfoList.at(0));
-            query.bindValue(":goatId",tempInfoList.at(1));
+            query.bindValue(":goatId",tempInfoList.at(0));
+            query.bindValue(":deviceId",tempInfoList.at(1));
             if(!query.exec()){
-                errList.append(tempInfoList.at(0));
+                errList.append(tempInfoList.at(1));
             }else{
                 count += 1;
             }
