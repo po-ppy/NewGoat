@@ -267,7 +267,7 @@ void InformationForm::pointHovered(const QPointF &point, bool state){
         valueLabel->adjustSize();
         QPoint curPos = mapFromGlobal(QCursor::pos());
         valueLabel->move(curPos.x(),curPos.y() - valueLabel->height());
-        qDebug() << "point.y() : " << point.y();
+//        qDebug() << "point.y() : " << point.y();
 //        valueLabel-
 //        valueLabel->setFrameStyle(QFrame::Panel | QFrame::Sunken);
 //        valueLabel->setAlignment(Qt::AlignTop);
