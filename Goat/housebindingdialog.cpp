@@ -144,9 +144,9 @@ void HouseBindingDialog::exportToFile(){
             return;
         }else{
             QTextStream fileOut(&file);
-            fileOut << QString("舍号").toLocal8Bit() <<"\t" << QString("设备编号").toLocal8Bit() << "\n";
+            fileOut << QString("舍号").toUtf8() <<"\t" << QString("设备编号").toUtf8() << "\n";
             while(query.next()){
-                fileOut << query.value("houseId").toString().toLocal8Bit() << "\t" << query.value("deviceId").toString().toLocal8Bit() << "\n";
+                fileOut << query.value("houseId").toString().toUtf8() << "\t" << query.value("deviceId").toString().toUtf8() << "\n";
             }
             file.close();
             QMessageBox::information(this,"成功","成功导入到指定文件!");

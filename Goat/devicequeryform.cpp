@@ -172,12 +172,12 @@ void DeviceQueryForm::exportSelected(){
             QTextStream fileOut(&file);
             int colCount = ui->tableView->model()->columnCount();
             for(int i = 0; i<colCount;i++){
-                fileOut << ui->tableView->model()->headerData(i,Qt::Horizontal).toString().toLocal8Bit() << "\t";
+                fileOut << ui->tableView->model()->headerData(i,Qt::Horizontal).toString().toUtf8() << "\t";
             }
             fileOut << "\n";
             foreach (int temp, list) {
                 for(int i = 0;i<ui->tableView->model()->columnCount();i++){
-                    fileOut << ui->tableView->model()->index(temp,i).data().toString().toLocal8Bit() << "\t";
+                    fileOut << ui->tableView->model()->index(temp,i).data().toString().toUtf8() << "\t";
                 }
                 fileOut << "\n";
             }

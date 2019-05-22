@@ -41,13 +41,16 @@ OtherDataForm::OtherDataForm(QWidget *parent) :
 
     connect(addDataDialog,SIGNAL(updateTab()),this,SLOT(updateTableView()));
 
+    initPlayer();
+
     ui->startTimeCheckBox->hide();
     ui->startTimeDateTimeEdit->hide();
     ui->label_3->hide();
     ui->endTimeCheckBox->hide();
     ui->endTimeDateTimeEdit->hide();
+    ui->addByHouseButton->hide();
 
-//    player = new QMediaPlayer(this);
+
 
 
 }
@@ -219,24 +222,15 @@ void OtherDataForm::showAlert(){
         if(query.next()){
             QString message = QString("舍号/路由节点:%1\n事件:%2\n发送传感器:%3").arg(query.value("routerId").toString()).arg(query.value("eventMeaning").toString()).arg(query.value("deviceId").toString());
             int eventDataId = query.value("id").toInt();
+            playSound(query.value("eventId").toInt());
             int backInfo = QMessageBox::warning(this,"警报",message,QMessageBox::Ok);
             if(backInfo == QMessageBox::Ok){
                 query.prepare("update eventData set eventState = '已知晓' where id = :id;");
                 query.bindValue(":id",eventDataId);
                 if(!query.exec()){
-//                    player->setMedia(QUrl::fromLocalFile("/home/poppy/Downloads/huozaijingbaosheng.mp3"));
-
-//                    player->setVolume(100);
-//                    player->play();
-//                    qDebug() <<  player->errorString();
-
-//                    QSoundEffect effect;
-//                    effect.setSource(QUrl::fromLocalFile("/home/poppy/Downloads/huozaijingbaosheng.mp3"));
-//                    effect.setLoopCount(2);
-//                    effect.setVolume(1.0f);
-//                    effect.play();
                     QMessageBox::warning(this,"警报","管理软件连接数据库出错!!");
                 }else{
+                    player->stop();
                     updateTableView();
                 }
             }
@@ -465,16 +459,70 @@ void OtherDataForm::exportSelected(){
             QTextStream fileOut(&file);
             int colCount = ui->tableView->model()->columnCount();
             for(int i = 1;i< colCount;i++){
-                fileOut << ui->tableView->model()->headerData(i,Qt::Horizontal).toString().toLocal8Bit() << "\t";
+                fileOut << ui->tableView->model()->headerData(i,Qt::Horizontal).toString().toUtf8() << "\t";
             }
             fileOut << "\n";
             foreach (int temp, list) {
                 for(int i = 1;i<colCount;i++){
-                    fileOut << ui->tableView->model()->index(temp,i).data().toString().toLocal8Bit() << "\t";
+                    fileOut << ui->tableView->model()->index(temp,i).data().toString().toUtf8() << "\t";
                 }
                 fileOut << "\n";
             }
             file.close();
         }
     }
+}
+
+void OtherDataForm::initPlayer(){
+    playlist = new QMediaPlaylist(this);
+    player = new QMediaPlayer(this);
+
+    playlist->addMedia(QUrl::fromLocalFile("/home/poppy/Downloads/menling.mp3"));
+    playlist->addMedia(QUrl::fromLocalFile("/home/poppy/Downloads/huozaijingbaosheng.mp3"));
+
+    playlist->setCurrentIndex(1);
+    playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+    player->setMedia(playlist);
+
+    if(playlist->mediaCount() != 2){
+        QMessageBox::warning(this,"警告","缺少系统提示音!");
+    }
+}
+
+void OtherDataForm::playSound(int eventId){
+    if(playlist->mediaCount() != 2){
+        return;
+    }
+    if(player->state() == QMediaPlayer::PlayingState && playlist->currentIndex() == 1){
+        return;
+    }
+    player->stop();
+    if(eventId == 1){
+        playlist->setCurrentIndex(1);
+    }else{
+        playlist->setCurrentIndex(0);
+    }
+    player->play();
+
+}
+
+void OtherDataForm::on_addByHouseButton_clicked()
+{
+//    player->setMedia(QUrl::fromLocalFile("/home/poppy/Downloads/huozaijingbaosheng.mp3"));
+    qDebug() << "playlist->currentIndex() " << playlist->currentIndex();
+    player->stop();
+//    playlist->setPlaybackMode(
+//    playlist->next();
+//    playlist->setCurrentIndex(0);
+    qDebug() << "playlist->nextIndex() " << playlist->nextIndex();
+    playlist->setCurrentIndex((playlist->currentIndex()+1)%playlist->mediaCount());
+
+    qDebug() << "playlist->currentIndex() " << playlist->currentIndex();
+//    player->setPlaylist(playlist);
+    player->setVolume(100);
+    player->play();
+    ;
+    qDebug() << playlist->currentMedia().canonicalUrl().toString();
+
+    qDebug() <<  player->errorString();
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1108</width>
-    <height>651</height>
+    <width>1110</width>
+    <height>653</height>
    </rect>
   </property>
   <property name="font">
@@ -27,6 +27,12 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
       <widget class="QWidget" name="page"/>
       <widget class="QWidget" name="page_2"/>
      </widget>
@@ -38,7 +44,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1108</width>
+     <width>1110</width>
      <height>27</height>
     </rect>
    </property>
@@ -52,7 +58,7 @@
     <property name="font">
      <font>
       <family>黑体</family>
-      <pointsize>14</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="title">
@@ -66,7 +72,7 @@
     <property name="font">
      <font>
       <family>黑体</family>
-      <pointsize>14</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="title">
@@ -151,7 +157,7 @@
     <property name="font">
      <font>
       <family>黑体</family>
-      <pointsize>14</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="title">
@@ -165,7 +171,7 @@
     <property name="font">
      <font>
       <family>黑体</family>
-      <pointsize>14</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="title">
@@ -177,7 +183,7 @@
     <property name="font">
      <font>
       <family>黑体</family>
-      <pointsize>14</pointsize>
+      <pointsize>12</pointsize>
      </font>
     </property>
     <property name="title">
@@ -195,7 +201,7 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </widget>
@@ -206,7 +212,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -217,7 +223,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -228,7 +234,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -239,7 +245,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -250,7 +256,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -266,7 +272,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -277,7 +283,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -288,7 +294,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -305,7 +311,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="autoRepeat">
@@ -319,7 +325,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -330,7 +336,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -341,7 +347,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -352,7 +358,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -363,7 +369,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -374,7 +380,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -407,7 +413,7 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
@@ -418,13 +424,18 @@
    <property name="font">
     <font>
      <family>黑体</family>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
   </action>
   <action name="action_init">
    <property name="text">
     <string>初始化/清除系统</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
    </property>
   </action>
  </widget>

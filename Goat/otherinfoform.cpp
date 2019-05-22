@@ -365,22 +365,22 @@ void OtherInfoForm::exportSelected(){
             switch (infoType) {
             case 0 :
                 foreach(QString temp, feedHeadList){
-                    fileOut << temp.toLocal8Bit() << "\t";
+                    fileOut << temp.toUtf8() << "\t";
                 }
                 break;
             case 1 :
                 foreach(QString temp, vacineHeadList){
-                    fileOut << temp.toLocal8Bit() << "\t";
+                    fileOut << temp.toUtf8() << "\t";
                 }
                 break;
             case 2 :
                 foreach(QString temp, productHeadList){
-                    fileOut << temp.toLocal8Bit() << "\t";
+                    fileOut << temp.toUtf8() << "\t";
                 }
                 break;
             case 3 :
                 foreach(QString temp, eventHeadList){
-                    fileOut << temp.toLocal8Bit() << "\t";
+                    fileOut << temp.toUtf8() << "\t";
                 }
                 break;
             default:
@@ -389,7 +389,7 @@ void OtherInfoForm::exportSelected(){
             fileOut << "\n";
             foreach (int temp, list) {
                 for(int i = 0;i<colCount;i++){
-                    fileOut << ui->tableView->model()->index(temp,i).data().toString().toLocal8Bit() << "\t";
+                    fileOut << ui->tableView->model()->index(temp,i).data().toString().toUtf8() << "\t";
                 }
                 fileOut << "\n";
             }

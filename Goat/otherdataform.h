@@ -18,6 +18,8 @@
 #include <QSqlError>
 #include <QMap>
 #include <QIcon>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 #include <adddatadialog.h>
 #include <QTimer>
 
@@ -53,6 +55,8 @@ private slots:
     void on_removeButton_clicked();
 
     void on_tableView_customContextMenuRequested(const QPoint &pos);
+    void on_addByHouseButton_clicked();
+
 signals:
     void shouldShowUntreatedEvent();
 public slots:
@@ -69,6 +73,8 @@ public slots:
     void stopCheckEvent();
     void showAlert();
     void initMenu();
+    void initPlayer();
+    void playSound(int eventId);
 
 private:
     Ui::OtherDataForm *ui;
@@ -79,7 +85,8 @@ private:
     QMap<QString,QString> keyWordMap;
     AddDataDialog *addDataDialog;
     QTimer eventCheckTimer;
-//    QMediaPlayer *player;
+    QMediaPlaylist* playlist;
+    QMediaPlayer *player;
 
     QMenu *cmenu;
     QAction *actionAdd;

@@ -294,14 +294,14 @@ void GoatQueryForm::updateHouseId(){
     QString curText = ui->comboBox->currentText();
     ui->comboBox->clear();
     QSqlQuery query(DB::instance().data()->getDb());
-    query.exec("select a.houseId as 舍号, b.deviceId as 绑定设备 from houseInfo a join houseBindingInfo b on a.houseId = b.houseId;");
+    query.exec("select a.houseId as 舍号, b.deviceId as 绑定设备 from houseInfo a left join houseBindingInfo b on a.houseId = b.houseId;");
     houseQueryModel->setQuery(query);
     ui->houseIdTableView->setModel(houseQueryModel);
     ui->houseIdTableView->horizontalHeader()->setStretchLastSection(true);
-    int tempCount = ui->tableView->horizontalHeader()->count() - 1 ;
-    for(int i = 0; i < tempCount;i++){
-        ui->houseIdTableView->horizontalHeader()->setSectionResizeMode(i,QHeaderView::ResizeToContents);
-    }
+//    int tempCount = ui->tableView->horizontalHeader()->count() - 1 ;
+//    for(int i = 0; i < tempCount;i++){
+//        ui->houseIdTableView->horizontalHeader()->setSectionResizeMode(i,QHeaderView::ResizeToContents);
+//    }
     while(query.next()){
         ui->comboBox->addItem(query.value(0).toString());
     }
@@ -520,12 +520,12 @@ void GoatQueryForm::exportToFile(){
             QTextStream fileOut(&file);
             int colCount = ui->tableView->model()->columnCount();
             for(int i = 0; i<colCount;i++){
-                fileOut << ui->tableView->model()->headerData(i,Qt::Horizontal).toString().toLocal8Bit() << "\t";
+                fileOut << ui->tableView->model()->headerData(i,Qt::Horizontal).toString().toUtf8() << "\t";
             }
             fileOut << "\n";
             foreach (int temp, list) {
                 for(int i = 0;i<ui->tableView->model()->columnCount();i++){
-                    fileOut << ui->tableView->model()->index(temp,i).data().toString().toLocal8Bit() << "\t";
+                    fileOut << ui->tableView->model()->index(temp,i).data().toString().toUtf8() << "\t";
                 }
                 fileOut << "\n";
             }

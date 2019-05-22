@@ -112,9 +112,9 @@ void SportDataForm::exportToFile(){
             return;
         }else{
             QTextStream fileOut(&file);
-            fileOut << QString("舍号").toLocal8Bit() <<"\t" << QString("温度").toLocal8Bit() <<"\t" << QString("氨气浓度").toLocal8Bit() <<"\t" << QString("湿度").toLocal8Bit() <<"\t" << QString("二氧化碳浓度").toLocal8Bit() <<"\t" << QString("光照强度").toLocal8Bit() <<"\t" << QString("PM2.5").toLocal8Bit() <<"\t" << QString("PM10").toLocal8Bit() <<"\t" << QString("烟雾").toLocal8Bit() <<"\t" << QString("记录时间").toLocal8Bit() << "\n";
+            fileOut << QString("舍号").toUtf8() <<"\t" << QString("温度").toUtf8() <<"\t" << QString("氨气浓度").toUtf8() <<"\t" << QString("湿度").toUtf8() <<"\t" << QString("二氧化碳浓度").toUtf8() <<"\t" << QString("光照强度").toUtf8() <<"\t" << QString("PM2.5").toUtf8() <<"\t" << QString("PM10").toUtf8() <<"\t" << QString("烟雾").toUtf8() <<"\t" << QString("记录时间").toUtf8() << "\n";
             while(query.next()){
-                fileOut << query.value("houseId").toString().toLocal8Bit() << "\t" << query.value("wendu").toString().toLocal8Bit()<< "\t" << query.value("anqi").toString().toLocal8Bit() << "\t" << query.value("shidu").toString().toLocal8Bit() << "\t" << query.value("eryang").toString().toLocal8Bit() << "\t" << query.value("guangzhao").toString().toLocal8Bit() << "\t" << query.value("pm25").toString().toLocal8Bit() << "\t" << query.value("pm10").toString().toLocal8Bit() << "\t" << query.value("yanwu").toString().toLocal8Bit() << "\t" << QDateTime::fromMSecsSinceEpoch(query.value("datatimem").toLongLong()).toString().toLocal8Bit()<< "\n";
+                fileOut << query.value("houseId").toString().toUtf8() << "\t" << query.value("wendu").toString().toUtf8()<< "\t" << query.value("anqi").toString().toUtf8() << "\t" << query.value("shidu").toString().toUtf8() << "\t" << query.value("eryang").toString().toUtf8() << "\t" << query.value("guangzhao").toString().toUtf8() << "\t" << query.value("pm25").toString().toUtf8() << "\t" << query.value("pm10").toString().toUtf8() << "\t" << query.value("yanwu").toString().toUtf8() << "\t" << QDateTime::fromMSecsSinceEpoch(query.value("datatimem").toLongLong()).toString().toUtf8()<< "\n";
             }
             file.close();
             QMessageBox::information(this,"成功","成功导入到指定文件!");
