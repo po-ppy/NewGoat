@@ -90,12 +90,12 @@ bool OtherDataForm::setDataType(int temp){
     //updateKeyWord();
     if(dataType == 3){
         ui->addButton->setIcon(QIcon(":/duigou.png"));
-        ui->addByHouseButton->hide();
+//        ui->addByHouseButton->hide();
         actionAdd->setText("处理标记");
     }else{
         addDataDialog->setDataType(dataType);
         ui->addButton->setIcon(QIcon(":/plus.png"));
-        ui->addByHouseButton->show();
+//        ui->addByHouseButton->show();
         actionAdd->setText("添加");
     }
     return true;

@@ -167,7 +167,7 @@ end||
 create trigger bf_del_house_deivce before delete
 on houseInfo for each row
 begin
-  update houseDeviceInfo set deviceState = '闲置' where houseDeviceInfo.deviceId in (select hosueBindingInfo.deviceId from houseBindingInfo where houseBindingInfo.houseId = old.houseId);
+  update houseDeviceInfo set deviceState = '闲置' where houseDeviceInfo.deviceId in (select houseBindingInfo.deviceId from houseBindingInfo where houseBindingInfo.houseId = old.houseId);
 end||
 
 create trigger bf_del_house_binding before delete

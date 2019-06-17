@@ -35,7 +35,7 @@
        </item>
        <item>
         <property name="text">
-         <string>运动监测</string>
+         <string>环境监测</string>
         </property>
         <property name="icon">
          <iconset resource="icons.qrc">

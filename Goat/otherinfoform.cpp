@@ -17,7 +17,8 @@ OtherInfoForm::OtherInfoForm(QWidget *parent) :
 
     initMenu();
 
-    ui->addMoreButton->setDisabled(true);
+    ui->addMoreButton->hide();
+//    ui->addMoreButton->setDisabled(true);
 
     feedHeadList << tr("饲料编号") << tr("饲料名称") << tr("适用范围") << tr("用法用量") << tr("备注");
     vacineHeadList << tr("疫苗编号") << tr("疫苗名称") << tr("疫苗种类") << tr("免疫时间") << tr("免疫剂量") << tr("注射部位") << tr("备注");
@@ -165,7 +166,7 @@ void OtherInfoForm::deleteSelected(){
 
     QModelIndexList tempList = ui->tableView->selectionModel()->selectedIndexes();
     if(tempList.size() > 0){
-        int confirm = QMessageBox::question(this,"确认","确定删除选中设备吗?",QMessageBox::Yes,QMessageBox::No);
+        int confirm = QMessageBox::question(this,"确认","确定删除选中数据吗?",QMessageBox::Yes,QMessageBox::No);
         if(confirm != QMessageBox::Yes){
             return;
         }

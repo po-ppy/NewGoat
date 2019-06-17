@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->addWidget(otherInfoForm);
     ui->stackedWidget->addWidget(otherDataForm);
 
-    this->setWindowTitle("奶山羊行为检测与信息管理系统");
+    this->setWindowTitle("奶山羊圈舍环境监测与信息管理系统");
 
     ui->stackedWidget->setCurrentWidget(sportDataForm);
 

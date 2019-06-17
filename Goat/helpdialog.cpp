@@ -24,17 +24,19 @@ void HelpDialog::aboutUser(){
     ui->textEdit->append("");
     ui->textEdit->append("使用mysql数据库账号和密码进行登录。");
     ui->textEdit->append("");
-    ui->textEdit->append("数据库中需要有goatdb数据库，否则请从数据处理程序(GoatDataServer)初始化数据库再使用。");
+    ui->textEdit->append("数据库中需要有goatdb数据库，否则请初始化数据库再使用。");
 }
 
 void HelpDialog::aboutSport(){
     ui->textEdit->clear();
     ui->textEdit->setFontPointSize(18);
     ui->textEdit->setFontWeight(20);
-    ui->textEdit->append("运动监测");
+    ui->textEdit->append("环境监测");
     ui->textEdit->append("");
     ui->textEdit->setFontPointSize(12);
-    ui->textEdit->append("显示各羊舍的环境数据和其中奶山羊的运动状态。");
+    ui->textEdit->append("显示各羊舍的环境数据。");
+    ui->textEdit->append("");
+    ui->textEdit->append("鼠标移动到曲线可查看数值，滚动滑轮可放缩纵坐标，点击图例可隐藏或显示曲线。");
     ui->textEdit->append("");
 
 }
@@ -51,7 +53,7 @@ void HelpDialog::aboutInfo(){
     ui->textEdit->append("");
     ui->textEdit->append("设备信息管理：管理设备信息，右键菜单可用，可执行解绑、报告故障、恢复使用、删除等操作。");
     ui->textEdit->append("");
-    ui->textEdit->append("设备无需手动导入，系统正常运行，终端上电即可自动添加。");
+    ui->textEdit->append("设备无需手动导入，系统正常运行，通过协调节点发送事件信息0，即可自动添加。");
 }
 
 void HelpDialog::aboutSetting(){
@@ -73,7 +75,7 @@ void HelpDialog::aboutUs(){
     ui->textEdit->append("关于我们");
     ui->textEdit->append("");
     ui->textEdit->setFontPointSize(12);
-    ui->textEdit->append("奶山羊信息管理系统");
+    ui->textEdit->append("奶山羊圈舍环境监测PC端软件系统");
     ui->textEdit->append("");
     ui->textEdit->append("西农科创团队");
 }

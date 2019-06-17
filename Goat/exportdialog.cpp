@@ -113,7 +113,7 @@ void ExportDialog::doExport(){
 //    argList << "-p"+DB::instance().data()->getDb().password();
 //    qDebug() << DB::instance().data()->getDb().password();
 //    argList << "goatdb" << getChoosed();
-////    argList << ">" << fileName;
+//    argList << ">" << fileName;
 //    qDebug() << argList;
 //    process->setArguments(argList);
 //    process->setStandardOutputFile(fileName);
@@ -127,12 +127,20 @@ void ExportDialog::doExport(){
     if(ui->checkBox_chooseAll->checkState() == Qt::PartiallyChecked){
         arglist += getChoosed();
     }
+    QFile file(fileName);
+    file.open(QIODevice::ReadWrite);
 //    arglist += " > " + fileName;
     QString cmd = "mysqldump"+arglist;
     qDebug() << cmd;
-    process->setStandardOutputFile(fileName);
-//    qDebug() << "filename " << fileName;
+//    process->setStandardOutputFile(QDir::toNativeSeparators(fileName));
+//    process->setStandardErrorFile(QDir::toNativeSeparators(fileName));
+    qDebug() << "filename " << QDir::toNativeSeparators(fileName);
     process->start(cmd);
+    process->waitForFinished();
+    qDebug() << process->readAllStandardError();
+    qDebug() << process->readAllStandardOutput();
+    file.close();
+    qDebug() << "is finished";
 //    process->terminate();
 //    process->kill();
 

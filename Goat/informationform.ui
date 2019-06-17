@@ -191,7 +191,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>mg/m3</string>
+                 <string>ppm</string>
                 </property>
                </widget>
               </item>
@@ -297,7 +297,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>lx</string>
+                 <string>lux</string>
                 </property>
                </widget>
               </item>
@@ -348,7 +348,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>mg/m3</string>
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -399,7 +399,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>mg/m3</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ug/m&lt;span style=&quot; vertical-align:super;&quot;&gt;3&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>
@@ -450,7 +450,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string>mg/m3</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;ug/m&lt;span style=&quot; vertical-align:super;&quot;&gt;3&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>

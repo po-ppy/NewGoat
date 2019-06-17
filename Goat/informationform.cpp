@@ -146,9 +146,10 @@ void InformationForm::createChart(){
 
     axisX = new QDateTimeAxis;
     axisX->setTickCount(20);
-    axisX->setFormat("hh:mm:ss");
+//    axisX->setFormat("hh:mm:ss");
+    axisX->setFormat("ss");
     chart->addAxis(axisX, Qt::AlignBottom);
-
+    axisX->setTitleText("时间(分钟)");
     axisY = new QValueAxis;
 //    axisY->setMax(100);
 //    axisY->setMin(0);
