@@ -29,9 +29,13 @@ public slots:
     void setDB(QSqlDatabase &inDB);
     bool setClient(QTcpSocket *inClient);
     bool clientIsOpen();
+    //数据处理
     void testData(QList<QByteArray> todoList,QSqlDatabase &inDB);
+    //羊舍环境数据处理
     void dataPro(QList<QByteArray> todoList,QSqlDatabase &inDB);
+    //事件信息处理
     void eventPro(QList<QByteArray> todoList,QSqlDatabase &inDB);
+    //运动数据处理（预留）
     void sportPro(QList<QByteArray> todoList,QSqlDatabase &inDB);
 
 private:
